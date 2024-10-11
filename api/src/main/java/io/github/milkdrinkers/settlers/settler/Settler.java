@@ -8,6 +8,7 @@ public class Settler {
 
     public Settler(NPC npc) {
         this.npc = npc;
+        SettlerLookup.addSettlerToLookup(npc, this);
     }
 
     public NPC getNpc() {
