@@ -66,13 +66,13 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             groupId = "${rootProject.group}"
-            artifactId = "npc-api"
+            artifactId = "settlers-api"
             version = "${rootProject.version}"
 
             pom {
-                name.set("NPC-API")
+                name.set("Settlers")
                 description.set(rootProject.description.orEmpty())
-                url.set("https://github.com/milkdrinkers/NPC-API")
+                url.set("https://github.com/milkdrinkers/Settlers")
                 licenses {
                     license {
                         name.set("GPL-v3.0")
@@ -88,9 +88,9 @@ publishing {
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/milkdrinkers/NPC-API.git")
-                    developerConnection.set("scm:git:ssh://github.com:milkdrinkers/NPC-API.git")
-                    url.set("https://github.com/milkdrinkers/NPC-API")
+                    connection.set("scm:git:git://github.com/milkdrinkers/Settlers.git")
+                    developerConnection.set("scm:git:ssh://github.com:milkdrinkers/Settlers.git")
+                    url.set("https://github.com/milkdrinkers/Settlers")
                 }
             }
 
