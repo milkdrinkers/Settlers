@@ -1,0 +1,17 @@
+[versions]
+crate = "2.1.0"
+
+[libraries]
+annotations = "org.jetbrains:annotations:26.0.0"
+paper-api = "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT"
+crate-api = { module = "com.github.milkdrinkers:crate-api", version.ref = "crate" }
+crate-yaml = { module = "com.github.milkdrinkers:crate-yaml", version.ref = "crate" }
+colorparser = "com.github.milkdrinkers:colorparser:2.0.3"
+command-api = "dev.jorel:commandapi-bukkit-shade:9.5.3"
+bstats-bukkit = "org.bstats:bstats-bukkit:3.1.0"
+citizens = "net.citizensnpcs:citizens-main:2.0.35-SNAPSHOT"
+
+[plugins]
+shadow = "io.github.goooler.shadow:8.1.8"
+run-paper = "xyz.jpenilla.run-paper:2.3.1"
+plugin-yml = "net.minecrell.plugin-yml.bukkit:0.6.0"
