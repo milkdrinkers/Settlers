@@ -15,3 +15,5 @@ include(
     "api",
     "core"
 )
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

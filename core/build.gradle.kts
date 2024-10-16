@@ -36,7 +36,7 @@ dependencies {
     compileOnly(libs.paper.api)
 
     // API
-    api(project(":api"))
+    api(projects.api)
     implementation(libs.crate.api)
     implementation(libs.crate.yaml)
     implementation(libs.colorparser) {
