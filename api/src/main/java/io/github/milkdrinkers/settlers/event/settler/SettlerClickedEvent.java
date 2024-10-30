@@ -12,13 +12,12 @@ public class SettlerClickedEvent extends SettlerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private ClickType clickType;
     private Player clicker;
-    private Settler settler;
     private boolean cancelled;
 
-    public SettlerClickedEvent(ClickType clickType, Player clicker, Settler settler) {
+    public SettlerClickedEvent(Settler settler, ClickType clickType, Player clicker) {
+        super(settler);
         this.clickType = clickType;
         this.clicker = clicker;
-        this.settler = settler;
     }
 
     @Override
@@ -42,9 +41,6 @@ public class SettlerClickedEvent extends SettlerEvent implements Cancellable {
         return clicker;
     }
 
-    public Settler getSettler() {
-        return settler;
-    }
 
     @Override
     public boolean isCancelled() {
