@@ -23,6 +23,7 @@ java {
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://maven.citizensnpcs.co/repo")
 }
 
 dependencies {
@@ -30,6 +31,9 @@ dependencies {
     annotationProcessor(libs.annotations)
 
     compileOnly(libs.paper.api)
+    compileOnly(libs.citizens) {
+        exclude ("*", "*")
+    }
 }
 
 tasks {
