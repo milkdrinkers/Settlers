@@ -9,7 +9,7 @@ public class SettlerCreateEvent extends AbstractSettlerEvent implements Cancella
     private final CreateReason reason;
     private boolean cancelled;
 
-    protected SettlerCreateEvent(Settler settler, CreateReason reason) {
+    public SettlerCreateEvent(Settler settler, CreateReason reason) { // TODO call this event when a settler is created
         super(settler);
         this.reason = reason;
     }

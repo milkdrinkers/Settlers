@@ -5,6 +5,7 @@ plugins {
 val mainPackage = "${rootProject.group}.${rootProject.name.lowercase()}"
 
 dependencies {
+    compileOnly(projects.common)
 }
 
 deployer {

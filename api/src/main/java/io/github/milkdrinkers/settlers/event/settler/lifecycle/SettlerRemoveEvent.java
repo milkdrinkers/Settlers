@@ -5,23 +5,12 @@ import io.github.milkdrinkers.settlers.event.settler.AbstractSettlerEvent;
 import io.github.milkdrinkers.settlers.settler.Settler;
 import org.bukkit.event.Cancellable;
 
-public class SettlerRemoveEvent extends AbstractSettlerEvent implements Cancellable {
+public class SettlerRemoveEvent extends AbstractSettlerEvent {
     private final RemoveReason reason;
-    private boolean cancelled;
 
-    protected SettlerRemoveEvent(Settler settler, RemoveReason reason) {
+    public SettlerRemoveEvent(Settler settler, RemoveReason reason) { // TODO remove the settler from the registry
         super(settler);
         this.reason = reason;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
     }
 
     public RemoveReason getReason() {
