@@ -1,42 +1,13 @@
-import java.time.Instant
-
 plugins {
-    `java-library`
-    alias(libs.plugins.shadow)
     alias(libs.plugins.run.paper)
     alias(libs.plugins.plugin.yml)
-    eclipse
-    idea
 }
 
-group = rootProject.group
-version = rootProject.version
-description = rootProject.description
-
-val mainPackage = "${project.group}.${project.name.lowercase()}"
-applyCustomVersion()
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21)) // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
-    withJavadocJar()
-    withSourcesJar()
-}
-
-repositories {
-    mavenCentral()
-    maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://maven.athyrium.eu/releases")
-    maven("https://maven.citizensnpcs.co/repo")
-}
+val mainPackage = "${rootProject.group}.${rootProject.name.lowercase()}"
 
 dependencies {
-    compileOnly("org.jetbrains:annotations:26.0.0")
-    annotationProcessor("org.jetbrains:annotations:26.0.0")
-
-    compileOnly(libs.paper.api)
-
-    // API
     api(projects.api)
+
     implementation(libs.crate.api)
     implementation(libs.crate.yaml)
     implementation(libs.colorparser) {
@@ -46,9 +17,6 @@ dependencies {
 
     // Plugin Dependencies
     implementation(libs.bstats.bukkit)
-    compileOnly(libs.citizens) {
-        exclude ("*", "*")
-    }
 }
 
 tasks {
@@ -56,28 +24,8 @@ tasks {
         dependsOn(shadowJar)
     }
 
-    compileJava {
-        options.encoding = Charsets.UTF_8.name()
-        options.compilerArgs.addAll(arrayListOf("-Xlint:all", "-Xlint:-processing", "-Xdiags:verbose"))
-    }
-
-    javadoc {
-        isFailOnError = false
-        val options = options as StandardJavadocDocletOptions
-        options.encoding = Charsets.UTF_8.name()
-        options.overview = "src/main/javadoc/overview.html"
-        options.windowTitle = "${rootProject.name} Javadoc"
-        options.tags("apiNote:a:API Note:", "implNote:a:Implementation Note:", "implSpec:a:Implementation Requirements:")
-        options.addStringOption("Xdoclint:none", "-quiet")
-        options.use()
-    }
-
-    processResources {
-        filteringCharset = Charsets.UTF_8.name()
-    }
-
     shadowJar {
-        archiveBaseName.set(project.name)
+        archiveBaseName.set(rootProject.name)
         archiveClassifier.set("")
 
         // Shadow classes
@@ -103,13 +51,13 @@ tasks {
 }
 
 bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
-    main = "${mainPackage}.${project.name}"
+    main = "${mainPackage}.${rootProject.name}"
 
     // Plugin Information
-    name = project.name
-    prefix = project.name
-    version = "${project.version}"
-    description = "${project.description}"
+    name = rootProject.name
+    prefix = rootProject.name
+    version = "${rootProject.version}"
+    description = "${rootProject.description}"
     authors = listOf("darksaid98")
     contributors = listOf()
     apiVersion = "1.21"
@@ -118,12 +66,4 @@ bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     load = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.POSTWORLD // STARTUP or POSTWORLD
     depend = listOf("Citizens")
     softDepend = listOf("Towny")
-}
-
-fun applyCustomVersion() {
-    // Apply custom version arg or append snapshot version
-    val ver = properties["altVer"]?.toString() ?: "${rootProject.version}-SNAPSHOT-${Instant.now().epochSecond}"
-
-    // Strip prefixed "v" from version tag
-    rootProject.version = (if (ver.first().equals('v', true)) ver.substring(1) else ver.uppercase()).uppercase()
 }

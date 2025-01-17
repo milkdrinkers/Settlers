@@ -1,71 +1,64 @@
-import java.time.Instant
-
 plugins {
-    `java-library`
-    `maven-publish`
-    eclipse
-    idea
+    alias(libs.plugins.maven.deployer)
 }
 
-group = rootProject.group
-version = rootProject.version
-description = rootProject.description
-
-val mainPackage = "${project.group}.${project.name.lowercase()}"
-applyCustomVersion()
-
-java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21)) // Configure the java toolchain. This allows gradle to auto-provision JDK 17 on systems that only have JDK 8 installed for example.
-    withJavadocJar()
-    withSourcesJar()
-}
-
-repositories {
-    mavenCentral()
-    maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://maven.citizensnpcs.co/repo")
-}
+val mainPackage = "${rootProject.group}.${rootProject.name.lowercase()}"
 
 dependencies {
-    compileOnly(libs.annotations)
-    annotationProcessor(libs.annotations)
+}
 
-    compileOnly(libs.paper.api)
-    compileOnly(libs.citizens) {
-        exclude ("*", "*")
+deployer {
+    release {
+        version.set("${rootProject.version}")
+        description.set(rootProject.description.orEmpty())
+    }
+
+    projectInfo {
+        groupId = "io.github.milkdrinkers"
+        artifactId = "settlers"
+        version = "${rootProject.version}"
+
+        name = rootProject.name
+        description = rootProject.description.orEmpty()
+        url = "https://github.com/milkdrinkers/settlers"
+
+        scm {
+            connection = "scm:git:git://github.com/milkdrinkers/Settlers.git"
+            developerConnection = "scm:git:ssh://github.com:milkdrinkers/Settlers.git"
+            url = "https://github.com/milkdrinkers/Settlers"
+        }
+
+        license({
+            name = "GNU General Public License Version 3"
+            url = "https://www.gnu.org/licenses/gpl-3.0.en.html#license-text"
+        })
+
+        developer({
+            name.set("darksaid98")
+            email.set("darksaid9889@gmail.com")
+            url.set("https://github.com/darksaid98")
+            organization.set("Milkdrinkers")
+        })
+    }
+
+    content {
+        component {
+            fromJava()
+        }
+    }
+
+    centralPortalSpec {
+        auth.user.set(secret("MAVEN_USERNAME"))
+        auth.password.set(secret("MAVEN_PASSWORD"))
+    }
+
+    signing {
+        key.set(secret("GPG_KEY"))
+        password.set(secret("GPG_PASSWORD"))
     }
 }
 
-tasks {
-    compileJava {
-        options.encoding = Charsets.UTF_8.name()
-        options.compilerArgs.addAll(arrayListOf("-Xlint:all", "-Xlint:-processing", "-Xdiags:verbose"))
-    }
-
-    javadoc {
-        isFailOnError = false
-        val options = options as StandardJavadocDocletOptions
-        options.encoding = Charsets.UTF_8.name()
-        options.overview = "src/main/javadoc/overview.html"
-        options.windowTitle = "${rootProject.name} Javadoc"
-        options.tags("apiNote:a:API Note:", "implNote:a:Implementation Note:", "implSpec:a:Implementation Requirements:")
-        options.addStringOption("Xdoclint:none", "-quiet")
-        options.use()
-    }
-
-    processResources {
-        filteringCharset = Charsets.UTF_8.name()
-    }
-}
-
-fun applyCustomVersion() {
-    // Apply custom version arg or append snapshot version
-    val ver = properties["altVer"]?.toString() ?: "${rootProject.version}-SNAPSHOT-${Instant.now().epochSecond}"
-
-    // Strip prefixed "v" from version tag
-    rootProject.version = (if (ver.first().equals('v', true)) ver.substring(1) else ver.uppercase()).uppercase()
-}
-
+/*
 publishing {
     publications {
         create<MavenPublication>("maven") {
@@ -120,4 +113,4 @@ publishing {
             }
         }
     }
-}
+}*/

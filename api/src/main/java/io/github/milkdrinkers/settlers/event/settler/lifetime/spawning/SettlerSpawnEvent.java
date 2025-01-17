@@ -1,33 +1,20 @@
-package io.github.milkdrinkers.settlers.event.settler;
+package io.github.milkdrinkers.settlers.event.settler.lifetime.spawning;
 
 import io.github.milkdrinkers.settlers.enums.SpawnReason;
+import io.github.milkdrinkers.settlers.event.settler.AbstractSettlerEvent;
 import io.github.milkdrinkers.settlers.settler.Settler;
 import org.bukkit.Location;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.HandlerList;
-import org.jetbrains.annotations.NotNull;
 
-public class SettlerSpawnEvent extends SettlerEvent implements Cancellable {
-
-    private static final HandlerList handlers = new HandlerList();
-
+public class SettlerSpawnEvent extends AbstractSettlerEvent implements Cancellable {
     public Location location;
-
     public SpawnReason spawnReason;
+    private boolean cancelled;
 
     protected SettlerSpawnEvent(Settler settler, Location location, SpawnReason spawnReason) {
         super(settler);
         this.location = location;
         this.spawnReason = spawnReason;
-    }
-
-    @Override
-    public @NotNull HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
     }
 
     public SpawnReason getSpawnReason() {
@@ -40,11 +27,11 @@ public class SettlerSpawnEvent extends SettlerEvent implements Cancellable {
 
     @Override
     public boolean isCancelled() {
-        return false;
+        return cancelled;
     }
 
     @Override
-    public void setCancelled(boolean b) {
-
+    public void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 }
