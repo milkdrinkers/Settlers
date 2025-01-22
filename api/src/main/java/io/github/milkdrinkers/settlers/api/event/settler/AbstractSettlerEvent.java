@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractSettlerEvent extends Event {
     private static final HandlerList HANDLER_LIST = new HandlerList();
-    private Settler settler;
+    private final Settler settler;
 
     public AbstractSettlerEvent(Settler settler) {
         this.settler = settler;
@@ -22,12 +22,12 @@ public abstract class AbstractSettlerEvent extends Event {
         return settler;
     }
 
-    @Override
-    public @NotNull HandlerList getHandlers() {
+    public static HandlerList getHandlerList() {
         return HANDLER_LIST;
     }
 
-    public static HandlerList getHandlerList() {
+    @Override
+    public @NotNull HandlerList getHandlers() {
         return HANDLER_LIST;
     }
 }
