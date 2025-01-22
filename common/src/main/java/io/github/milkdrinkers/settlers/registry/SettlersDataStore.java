@@ -1,6 +1,6 @@
 package io.github.milkdrinkers.settlers.registry;
 
-import io.github.milkdrinkers.settlers.exception.SettlersLoadException;
+import io.github.milkdrinkers.settlers.api.exception.SettlersLoadException;
 import net.citizensnpcs.api.npc.NPCDataStore;
 import net.citizensnpcs.api.npc.SimpleNPCDataStore;
 import net.citizensnpcs.api.util.Storage;
@@ -26,7 +26,7 @@ public class SettlersDataStore {
      * @throws SettlersLoadException if the file could not be parsed or created
      */
     private static Storage getOrCreateSaveFile(File file) throws SettlersLoadException {
-        Storage storage = new YamlStorage(file, "Settlers NPC Storage");
+        final Storage storage = new YamlStorage(file, "Settlers NPC Storage");
         if (!storage.load())
             throw new SettlersLoadException("Failed to load stored settlers!");
 

@@ -4,15 +4,15 @@ public interface Reloadable {
     /**
      * On plugin load.
      */
-    void onLoad();
+    void onLoad(SettlersPlugin plugin);
 
     /**
      * On plugin enable.
      */
-    void onEnable();
+    void onEnable(SettlersPlugin plugin);
 
     /**
      * On plugin disable.
      */
-    void onDisable();
+    void onDisable(SettlersPlugin plugin);
 }

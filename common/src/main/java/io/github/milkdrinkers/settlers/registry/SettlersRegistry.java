@@ -32,4 +32,13 @@ public class SettlersRegistry {
     public SettlersDataStore getDataStore() {
         return dataStore;
     }
+
+    /**
+     * Saves the {@link NPCRegistry}'s to their datastore
+     * @implNote Internally executes {@link NPCRegistry#saveToStore()}
+     */
+    public void save() {
+        getPersistentRegistry().saveToStore();
+        getEphemeralRegistry().saveToStore();
+    }
 }
