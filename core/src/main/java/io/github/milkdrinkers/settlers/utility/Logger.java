@@ -1,6 +1,5 @@
 package io.github.milkdrinkers.settlers.utility;
 
-import io.github.milkdrinkers.settlers.Settlers;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 

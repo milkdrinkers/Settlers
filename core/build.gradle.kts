@@ -7,6 +7,7 @@ val mainPackage = "${rootProject.group}.${rootProject.name.lowercase()}"
 
 dependencies {
     api(projects.api)
+    api(projects.common)
 
     implementation(libs.crate.api)
     implementation(libs.crate.yaml)
