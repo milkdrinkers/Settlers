@@ -7,7 +7,9 @@ import io.github.milkdrinkers.settlers.api.event.settler.lifetime.SettlerCloneEv
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.SettlerRenameEvent;
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.SettlerSeenByPlayerEvent;
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.SettlerKnockbackEvent;
-import io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.SettlerLinkToPlayerEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.lifetime.selection.SettlerLinkToPlayerEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.SettlerLookCloseChangeTargetEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.SettlerOpenEvent;
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.command.SettlerCommandDispatchEvent;
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.damage.*;
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.movement.*;
@@ -323,5 +325,31 @@ public class CitizenListener implements Listener {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
         new SettlerCollisionEvent(SettlersAPI.getSettler(e.getNPC()), e.getCollidedWith()).callEvent();
+    }
+
+    @EventHandler
+    @SuppressWarnings("unused")
+    public void onLookCloseChangeTarget(NPCLookCloseChangeTargetEvent e) {
+        if (!SettlersAPI.isSettler(e.getNPC())) return;
+
+        new SettlerLookCloseChangeTargetEvent(SettlersAPI.getSettler(e.getNPC()), e.getPreviousTarget(), e.getNewTarget());
+    }
+
+    @EventHandler
+    @SuppressWarnings("unused")
+    public void onNPCOpenDoor(NPCOpenDoorEvent e) {
+        if (!SettlersAPI.isSettler(e.getNPC())) return;
+
+        final boolean cancelled = new SettlerOpenEvent(SettlersAPI.getSettler(e.getNPC()), e.getDoor()).callEvent();
+        e.setCancelled(cancelled);
+    }
+
+    @EventHandler
+    @SuppressWarnings("unused")
+    public void onNPCOpenGate(NPCOpenGateEvent e) {
+        if (!SettlersAPI.isSettler(e.getNPC())) return;
+
+        final boolean cancelled = new SettlerOpenEvent(SettlersAPI.getSettler(e.getNPC()), e.getGate()).callEvent();
+        e.setCancelled(cancelled);
     }
 }
