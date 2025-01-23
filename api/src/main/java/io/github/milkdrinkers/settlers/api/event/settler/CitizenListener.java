@@ -1,12 +1,13 @@
 package io.github.milkdrinkers.settlers.api.event.settler;
 
 import io.github.milkdrinkers.settlers.SettlersAPI;
+import io.github.milkdrinkers.settlers.api.enums.DoorType;
 import io.github.milkdrinkers.settlers.api.enums.RemoveReason;
 import io.github.milkdrinkers.settlers.api.event.settler.lifecycle.SettlerRemoveEvent;
-import io.github.milkdrinkers.settlers.api.event.settler.lifetime.SettlerCloneEvent;
-import io.github.milkdrinkers.settlers.api.event.settler.lifetime.SettlerRenameEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.lifecycle.SettlerCloneEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.lifecycle.SettlerRenameEvent;
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.SettlerSeenByPlayerEvent;
-import io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.SettlerKnockbackEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.damage.SettlerKnockbackEvent;
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.selection.SettlerLinkToPlayerEvent;
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.SettlerLookCloseChangeTargetEvent;
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.SettlerOpenEvent;
@@ -340,7 +341,7 @@ public class CitizenListener implements Listener {
     public void onNPCOpenDoor(NPCOpenDoorEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerOpenEvent(SettlersAPI.getSettler(e.getNPC()), e.getDoor()).callEvent();
+        final boolean cancelled = new SettlerOpenEvent(SettlersAPI.getSettler(e.getNPC()), e.getDoor(), DoorType.DOOR).callEvent();
         e.setCancelled(cancelled);
     }
 
@@ -349,7 +350,7 @@ public class CitizenListener implements Listener {
     public void onNPCOpenGate(NPCOpenGateEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerOpenEvent(SettlersAPI.getSettler(e.getNPC()), e.getGate()).callEvent();
+        final boolean cancelled = new SettlerOpenEvent(SettlersAPI.getSettler(e.getNPC()), e.getGate(), DoorType.GATE).callEvent();
         e.setCancelled(cancelled);
     }
 }

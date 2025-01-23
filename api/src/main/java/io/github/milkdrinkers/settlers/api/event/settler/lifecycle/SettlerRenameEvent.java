@@ -1,4 +1,4 @@
-package io.github.milkdrinkers.settlers.api.event.settler.lifetime;
+package io.github.milkdrinkers.settlers.api.event.settler.lifecycle;
 
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractCancellableSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;

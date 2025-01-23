@@ -1,4 +1,4 @@
-package io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact;
+package io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.damage;
 
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractCancellableSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;

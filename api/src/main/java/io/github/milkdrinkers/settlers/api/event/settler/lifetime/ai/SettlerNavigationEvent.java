@@ -1,4 +1,4 @@
-package io.github.milkdrinkers.settlers.api.event.settler.ai;
+package io.github.milkdrinkers.settlers.api.event.settler.lifetime.ai;
 
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
