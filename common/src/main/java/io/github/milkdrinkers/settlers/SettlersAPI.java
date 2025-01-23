@@ -1,7 +1,12 @@
 package io.github.milkdrinkers.settlers;
 
+import io.github.milkdrinkers.settlers.api.enums.SettlerType;
 import io.github.milkdrinkers.settlers.api.settler.SettlerLookup;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
+import io.github.milkdrinkers.settlers.api.trait.CompanionTrait;
+import io.github.milkdrinkers.settlers.api.trait.GuardTrait;
+import io.github.milkdrinkers.settlers.api.trait.NationFolkTrait;
+import io.github.milkdrinkers.settlers.api.trait.TownFolkTrait;
 import io.github.milkdrinkers.settlers.registry.SettlersRegistries;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
@@ -42,6 +47,27 @@ public final class SettlersAPI extends AbstractSettlersAPI {
             return null;
 
         return SettlerLookup.lookup(npc);
+    }
+
+    /**
+     * Check what type of settler a npc is
+     * @param npc npc
+     * @return a settler type or null
+     */
+    public static @Nullable SettlerType getSettlerType(NPC npc) {
+        if (npc.hasTrait(CompanionTrait.class))
+            return SettlerType.COMPANION;
+
+        if (npc.hasTrait(GuardTrait.class))
+            return SettlerType.GUARD;
+
+        if (npc.hasTrait(NationFolkTrait.class))
+            return SettlerType.NATION;
+
+        if (npc.hasTrait(TownFolkTrait.class))
+            return SettlerType.TOWN;
+
+        return null;
     }
 
     // SECTION Settlers Registries access

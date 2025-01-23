@@ -1,30 +1,29 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime.spawning;
 
-import io.github.milkdrinkers.settlers.api.enums.DespawnReason;
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
-import org.bukkit.event.Cancellable;
+import net.citizensnpcs.api.event.NPCDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
-public class SettlerDeathEvent extends AbstractSettlerEvent implements Cancellable {
-    public DespawnReason spawnReason;
-    private boolean cancelled;
+import java.util.List;
 
-    protected SettlerDeathEvent(Settler settler, DespawnReason spawnReason) {
+public class SettlerDeathEvent extends AbstractSettlerEvent {
+    private final NPCDeathEvent event;
+
+    public SettlerDeathEvent(Settler settler, NPCDeathEvent event) {
         super(settler);
-        this.spawnReason = spawnReason;
+        this.event = event;
     }
 
-    public DespawnReason getDespawnReason() {
-        return spawnReason;
+    public int getDroppedExp() {
+        return event.getDroppedExp();
     }
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
+    public List<ItemStack> getDrops() {
+        return event.getDrops();
     }
 
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public void setDroppedExp(int exp) {
+        event.setDroppedExp(exp);
     }
 }

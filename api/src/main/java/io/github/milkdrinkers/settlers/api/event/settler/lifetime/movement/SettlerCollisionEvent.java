@@ -1,30 +1,18 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime.movement;
 
-import io.github.milkdrinkers.settlers.api.enums.DespawnReason;
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
-import org.bukkit.event.Cancellable;
+import org.bukkit.entity.Entity;
 
-public class SettlerCollisionEvent extends AbstractSettlerEvent implements Cancellable { // TODO Mirror citizens event
-    public DespawnReason spawnReason;
-    private boolean cancelled;
+public class SettlerCollisionEvent extends AbstractSettlerEvent {
+    private final Entity collidedWith;
 
-    protected SettlerCollisionEvent(Settler settler, DespawnReason spawnReason) {
+    public SettlerCollisionEvent(Settler settler, Entity collidedWith) {
         super(settler);
-        this.spawnReason = spawnReason;
+        this.collidedWith = collidedWith;
     }
 
-    public DespawnReason getDespawnReason() {
-        return spawnReason;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public Entity getCollidedWith() {
+        return collidedWith;
     }
 }

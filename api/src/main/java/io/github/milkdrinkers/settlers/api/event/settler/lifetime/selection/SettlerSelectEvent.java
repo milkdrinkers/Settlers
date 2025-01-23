@@ -1,30 +1,18 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime.selection;
 
-import io.github.milkdrinkers.settlers.api.enums.DespawnReason;
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
-import org.bukkit.event.Cancellable;
+import org.bukkit.command.CommandSender;
 
-public class SettlerSelectEvent extends AbstractSettlerEvent implements Cancellable { // TODO Mirror citizens event
-    public DespawnReason spawnReason;
-    private boolean cancelled;
+public class SettlerSelectEvent extends AbstractSettlerEvent {
+    private final CommandSender sender;
 
-    protected SettlerSelectEvent(Settler settler, DespawnReason spawnReason) {
+    public SettlerSelectEvent(Settler settler, CommandSender sender) {
         super(settler);
-        this.spawnReason = spawnReason;
+        this.sender = sender;
     }
 
-    public DespawnReason getDespawnReason() {
-        return spawnReason;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public CommandSender getSelector() {
+        return sender;
     }
 }

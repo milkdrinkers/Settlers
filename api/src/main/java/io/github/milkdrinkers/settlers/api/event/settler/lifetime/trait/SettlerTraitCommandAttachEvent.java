@@ -1,37 +1,25 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime.trait;
 
-import io.github.milkdrinkers.settlers.api.enums.ClickType;
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
+import net.citizensnpcs.api.trait.Trait;
+import org.bukkit.command.CommandSender;
 
-public class SettlerTraitCommandAttachEvent extends AbstractSettlerEvent implements Cancellable { // TODO Mirror citizens event
-    private final ClickType clickType;
-    private final Player clicker;
-    private boolean cancelled;
+public class SettlerTraitCommandAttachEvent extends AbstractSettlerEvent {
+    private final Class<? extends Trait> traitClass;
+    private final CommandSender sender;
 
-    public SettlerTraitCommandAttachEvent(Settler settler, ClickType clickType, Player clicker) {
+    public SettlerTraitCommandAttachEvent(Settler settler, Class<? extends Trait> traitClass, CommandSender sender) {
         super(settler);
-        this.clickType = clickType;
-        this.clicker = clicker;
+        this.traitClass = traitClass;
+        this.sender = sender;
     }
 
-    public ClickType getClickType() {
-        return clickType;
+    public Class<? extends Trait> getTraitClass() {
+        return traitClass;
     }
 
-    public Player getClicker() {
-        return clicker;
-    }
-
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public CommandSender getSender() {
+        return sender;
     }
 }
