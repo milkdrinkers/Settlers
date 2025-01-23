@@ -1,31 +1,19 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact;
 
-import io.github.milkdrinkers.settlers.api.enums.DespawnReason;
-import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.AbstractCancellableSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
-import org.bukkit.event.Cancellable;
+import org.bukkit.block.Block;
 
-public class SettlerOpenEvent extends AbstractSettlerEvent implements Cancellable { // TODO Mirror citizens event
-    // TODO Open door & open gate in same event
-    public DespawnReason spawnReason;
-    private boolean cancelled;
+public class SettlerOpenEvent extends AbstractCancellableSettlerEvent {
+    public final Block block;
 
-    protected SettlerOpenEvent(Settler settler, DespawnReason spawnReason) {
+    public SettlerOpenEvent(Settler settler, Block block) {
         super(settler);
-        this.spawnReason = spawnReason;
+        this.block = block;
     }
 
-    public DespawnReason getDespawnReason() {
-        return spawnReason;
+    public Block getBlock() {
+        return block;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
-    }
 }
