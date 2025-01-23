@@ -4,9 +4,8 @@ import io.github.milkdrinkers.settlers.api.event.settler.AbstractCancellableSett
 import io.github.milkdrinkers.settlers.api.settler.Settler;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class SettlerDamagedEvent extends AbstractCancellableSettlerEvent { // TODO Mirror citizens event
-    private boolean cancelled;
-    private EntityDamageEvent e;
+public class SettlerDamagedEvent extends AbstractCancellableSettlerEvent {
+    private final EntityDamageEvent e;
 
     public SettlerDamagedEvent(Settler settler, EntityDamageEvent e) {
         super(settler);
