@@ -1,12 +1,10 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact;
 
-import io.github.milkdrinkers.settlers.api.enums.DespawnReason;
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 
-public class SettlerLookCloseChangeTargetEvent extends AbstractSettlerEvent { // TODO Mirror citizens event
+public class SettlerLookCloseChangeTargetEvent extends AbstractSettlerEvent {
     private final Player previousTarget;
     private Player newTarget;
 
