@@ -1,30 +1,26 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime;
 
-import io.github.milkdrinkers.settlers.api.enums.DespawnReason;
-import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.AbstractCancellableSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
-import org.bukkit.event.Cancellable;
+import net.citizensnpcs.api.event.NPCRenameEvent;
 
-public class SettlerRenameEvent extends AbstractSettlerEvent implements Cancellable { // TODO Mirror citizens event
-    public DespawnReason spawnReason;
-    private boolean cancelled;
+public class SettlerRenameEvent extends AbstractCancellableSettlerEvent {
+    private final NPCRenameEvent event;
 
-    protected SettlerRenameEvent(Settler settler, DespawnReason spawnReason) {
+    public SettlerRenameEvent(Settler settler, NPCRenameEvent event) {
         super(settler);
-        this.spawnReason = spawnReason;
+        this.event = event;
     }
 
-    public DespawnReason getDespawnReason() {
-        return spawnReason;
+    public String getNewName() {
+        return event.getNewName();
     }
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
+    public String getOldName() {
+        return event.getOldName();
     }
 
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public void setNewName(String newName) {
+        event.setNewName(newName);
     }
 }

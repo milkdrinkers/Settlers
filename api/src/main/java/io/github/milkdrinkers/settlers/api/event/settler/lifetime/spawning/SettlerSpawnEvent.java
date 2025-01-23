@@ -1,37 +1,25 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime.spawning;
 
-import io.github.milkdrinkers.settlers.api.enums.SpawnReason;
-import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.AbstractCancellableSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
+import net.citizensnpcs.api.event.SpawnReason;
 import org.bukkit.Location;
-import org.bukkit.event.Cancellable;
 
-public class SettlerSpawnEvent extends AbstractSettlerEvent implements Cancellable {
+public class SettlerSpawnEvent extends AbstractCancellableSettlerEvent {
     public Location location;
     public SpawnReason spawnReason;
-    private boolean cancelled;
 
-    protected SettlerSpawnEvent(Settler settler, Location location, SpawnReason spawnReason) {
+    public SettlerSpawnEvent(Settler settler, Location location, SpawnReason spawnReason) {
         super(settler);
         this.location = location;
         this.spawnReason = spawnReason;
-    }
-
-    public SpawnReason getSpawnReason() {
-        return spawnReason;
     }
 
     public Location getLocation() {
         return location;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
-    }
-
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public SpawnReason getSpawnReason() {
+        return spawnReason;
     }
 }
