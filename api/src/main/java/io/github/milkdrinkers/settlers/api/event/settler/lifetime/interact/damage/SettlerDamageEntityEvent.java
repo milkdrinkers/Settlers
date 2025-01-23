@@ -5,8 +5,8 @@ import io.github.milkdrinkers.settlers.api.settler.Settler;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-public class SettlerDamageEntityEvent extends AbstractCancellableSettlerEvent { // TODO Mirror citizens event
-    private EntityDamageByEntityEvent e;
+public class SettlerDamageEntityEvent extends AbstractCancellableSettlerEvent {
+    private final EntityDamageByEntityEvent e;
 
     public SettlerDamageEntityEvent(Settler settler, EntityDamageByEntityEvent e) {
         super(settler);

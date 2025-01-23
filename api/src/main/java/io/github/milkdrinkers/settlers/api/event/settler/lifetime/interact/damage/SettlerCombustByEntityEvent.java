@@ -4,7 +4,7 @@ import io.github.milkdrinkers.settlers.api.settler.Settler;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.entity.EntityCombustByEntityEvent;
 
-public class SettlerCombustByEntityEvent extends SettlerCombustEvent { // TODO Mirror citizens event
+public class SettlerCombustByEntityEvent extends SettlerCombustEvent {
     private final EntityCombustByEntityEvent e;
 
     public SettlerCombustByEntityEvent(Settler settler, EntityCombustByEntityEvent e) {

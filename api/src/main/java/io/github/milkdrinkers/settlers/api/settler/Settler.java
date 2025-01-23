@@ -1,6 +1,8 @@
 package io.github.milkdrinkers.settlers.api.settler;
 
 import io.github.milkdrinkers.settlers.SettlersPlugin;
+import io.github.milkdrinkers.settlers.api.enums.CreateReason;
+import io.github.milkdrinkers.settlers.api.event.settler.lifecycle.SettlerCreateEvent;
 import io.github.milkdrinkers.settlers.api.exception.SettlerSpawnException;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.event.SpawnReason;
@@ -15,6 +17,7 @@ public abstract class Settler {
 
     protected Settler(NPC npc) {
         this.npc = npc;
+        new SettlerCreateEvent(this, CreateReason.UNKNOWN).callEvent();
     }
 
     public NPC getNpc() {

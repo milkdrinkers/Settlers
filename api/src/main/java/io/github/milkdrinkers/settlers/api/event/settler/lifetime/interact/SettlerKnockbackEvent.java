@@ -5,7 +5,7 @@ import io.github.milkdrinkers.settlers.api.settler.Settler;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
-public class SettlerKnockbackEvent extends AbstractCancellableSettlerEvent { // TODO Mirror citizens event
+public class SettlerKnockbackEvent extends AbstractCancellableSettlerEvent {
     private final Entity entity;
     private final double strength;
     private final Vector vector;

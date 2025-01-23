@@ -7,7 +7,7 @@ import io.github.milkdrinkers.settlers.api.settler.Settler;
 public class SettlerRemoveEvent extends AbstractSettlerEvent {
     private final RemoveReason reason;
 
-    public SettlerRemoveEvent(Settler settler, RemoveReason reason) { // TODO remove the settler from the registry
+    public SettlerRemoveEvent(Settler settler, RemoveReason reason) {
         super(settler);
         this.reason = reason;
     }

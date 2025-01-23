@@ -4,7 +4,7 @@ import io.github.milkdrinkers.settlers.api.settler.Settler;
 import org.bukkit.block.Block;
 import org.bukkit.event.entity.EntityDamageByBlockEvent;
 
-public class SettlerDamagedByBlockEvent extends SettlerDamagedEvent { // TODO Mirror citizens event
+public class SettlerDamagedByBlockEvent extends SettlerDamagedEvent {
     private final EntityDamageByBlockEvent e;
 
     public SettlerDamagedByBlockEvent(Settler settler, EntityDamageByBlockEvent e) {
