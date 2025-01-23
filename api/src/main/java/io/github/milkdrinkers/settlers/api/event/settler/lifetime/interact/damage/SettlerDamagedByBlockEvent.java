@@ -1,0 +1,23 @@
+package io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.damage;
+
+import io.github.milkdrinkers.settlers.api.settler.Settler;
+import org.bukkit.block.Block;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
+
+public class SettlerDamagedByBlockEvent extends SettlerDamagedEvent { // TODO Mirror citizens event
+    private final EntityDamageByBlockEvent e;
+
+    public SettlerDamagedByBlockEvent(Settler settler, EntityDamageByBlockEvent e) {
+        super(settler, e);
+        this.e = e;
+    }
+
+    public Block getDamager() {
+        return e.getDamager();
+    }
+
+    public EntityDamageByBlockEvent getEvent() {
+        return e;
+    }
+
+}

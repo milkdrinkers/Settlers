@@ -3,19 +3,17 @@ package io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.comm
 import io.github.milkdrinkers.settlers.api.enums.DespawnReason;
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 
 public class SettlerCommandDispatchEvent extends AbstractSettlerEvent implements Cancellable { // TODO Mirror citizens event
-    public DespawnReason spawnReason;
     private boolean cancelled;
 
-    protected SettlerCommandDispatchEvent(Settler settler, DespawnReason spawnReason) {
-        super(settler);
-        this.spawnReason = spawnReason;
-    }
+    private final Player player;
 
-    public DespawnReason getDespawnReason() {
-        return spawnReason;
+    public SettlerCommandDispatchEvent(Settler settler, Player player) {
+        super(settler);
+        this.player = player;
     }
 
     @Override
@@ -26,5 +24,9 @@ public class SettlerCommandDispatchEvent extends AbstractSettlerEvent implements
     @Override
     public void setCancelled(boolean cancelled) {
         this.cancelled = cancelled;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
