@@ -1,7 +1,7 @@
 package io.github.milkdrinkers.settlers.api.event.settler;
 
 import io.github.milkdrinkers.settlers.SettlersAPI;
-import io.github.milkdrinkers.settlers.api.event.settler.speech.SettlerSpeechEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.lifetime.speech.SettlerSpeechEvent;
 import net.citizensnpcs.api.ai.speech.event.NPCSpeechEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

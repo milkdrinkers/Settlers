@@ -1,7 +1,7 @@
 package io.github.milkdrinkers.settlers.api.event.settler;
 
 import io.github.milkdrinkers.settlers.SettlersAPI;
-import io.github.milkdrinkers.settlers.api.event.settler.ai.*;
+import io.github.milkdrinkers.settlers.api.event.settler.lifetime.ai.*;
 import net.citizensnpcs.api.ai.event.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
