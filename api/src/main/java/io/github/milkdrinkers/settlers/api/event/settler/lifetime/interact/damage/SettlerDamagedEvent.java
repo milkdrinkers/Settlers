@@ -2,18 +2,19 @@ package io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact.dama
 
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractCancellableSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
-import org.bukkit.event.entity.EntityCombustEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 
-public class SettlerCombustEvent extends AbstractCancellableSettlerEvent { // TODO Mirror citizens event
-    private EntityCombustEvent e;
+public class SettlerDamagedEvent extends AbstractCancellableSettlerEvent { // TODO Mirror citizens event
     private boolean cancelled;
+    private EntityDamageEvent e;
 
-    public SettlerCombustEvent(Settler settler, EntityCombustEvent e) {
+    public SettlerDamagedEvent(Settler settler, EntityDamageEvent e) {
         super(settler);
         this.e = e;
     }
 
-    public EntityCombustEvent getEvent() {
+    public EntityDamageEvent getEvent() {
         return e;
     }
+
 }

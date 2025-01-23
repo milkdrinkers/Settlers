@@ -1,30 +1,32 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime.interact;
 
-import io.github.milkdrinkers.settlers.api.enums.DespawnReason;
-import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
+import io.github.milkdrinkers.settlers.api.event.settler.AbstractCancellableSettlerEvent;
 import io.github.milkdrinkers.settlers.api.settler.Settler;
-import org.bukkit.event.Cancellable;
+import org.bukkit.entity.Entity;
+import org.bukkit.util.Vector;
 
-public class SettlerKnockbackEvent extends AbstractSettlerEvent implements Cancellable { // TODO Mirror citizens event
-    public DespawnReason spawnReason;
-    private boolean cancelled;
+public class SettlerKnockbackEvent extends AbstractCancellableSettlerEvent { // TODO Mirror citizens event
+    private final Entity entity;
+    private final double strength;
+    private final Vector vector;
 
-    protected SettlerKnockbackEvent(Settler settler, DespawnReason spawnReason) {
+    public SettlerKnockbackEvent(Settler settler, double strength, Vector vector, Entity entity) {
         super(settler);
-        this.spawnReason = spawnReason;
+        this.entity = entity;
+        this.strength = strength;
+        this.vector = vector;
     }
 
-    public DespawnReason getDespawnReason() {
-        return spawnReason;
+    public Vector getKnockbackVector() {
+        return vector;
     }
 
-    @Override
-    public boolean isCancelled() {
-        return cancelled;
+    public Entity getKnockingBackEntity() {
+        return entity;
     }
 
-    @Override
-    public void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    public double getStrength() {
+        return strength;
     }
+
 }
