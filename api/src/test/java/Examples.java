@@ -8,6 +8,5 @@ public class Examples {
             .setEphemeral(true)
             .createCompanion();
 
-
     }
 }

@@ -1,8 +1,9 @@
 package io.github.milkdrinkers.settlers.api.settler;
 
-import io.github.milkdrinkers.settlers.SettlersAPI;
+import io.github.milkdrinkers.settlers.api.SettlersAPI;
 import io.github.milkdrinkers.settlers.api.enums.SettlerType;
 import io.github.milkdrinkers.settlers.api.exception.SettlerBuildException;
+import io.github.milkdrinkers.settlers.api.trait.*;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.kyori.adventure.text.Component;
@@ -13,6 +14,9 @@ import java.util.UUID;
 
 import static org.bukkit.entity.EntityType.PLAYER;
 
+/**
+ * A builder for creating new settlers.
+ */
 public class SettlerBuilder {
     private NPC npc;
     private SettlerType type;
@@ -90,6 +94,7 @@ public class SettlerBuilder {
                 } else {
                     setNpc(createNPC(SettlersAPI.getRegistryEphemeralCompanion(), name, location, id, uuid));
                 }
+                npc.addTrait(CompanionTrait.class);
             }
             case GUARD -> {
                 if (!ephemeral) {
@@ -97,6 +102,7 @@ public class SettlerBuilder {
                 } else {
                     setNpc(createNPC(SettlersAPI.getRegistryEphemeralGuard(), name, location, id, uuid));
                 }
+                npc.addTrait(GuardTrait.class);
             }
             case NATION -> {
                 if (!ephemeral) {
@@ -104,6 +110,7 @@ public class SettlerBuilder {
                 } else {
                     setNpc(createNPC(SettlersAPI.getRegistryEphemeralTown(), name, location, id, uuid));
                 }
+                npc.addTrait(NationFolkTrait.class);
             }
             case TOWN -> {
                 if (!ephemeral) {
@@ -111,11 +118,13 @@ public class SettlerBuilder {
                 } else {
                     setNpc(createNPC(SettlersAPI.getRegistryEphemeralNation(), name, location, id, uuid));
                 }
+                npc.addTrait(TownFolkTrait.class);
             }
         }
+        npc.addTrait(SettlerTrait.class);
     }
 
-    /*public Settler create() throws SettlerBuildException {
+    public AbstractSettler create() throws SettlerBuildException {
         checkFields();
 
         return switch (type) {
@@ -124,9 +133,10 @@ public class SettlerBuilder {
             case NATION -> createNationfolk();
             case TOWN -> createTownfolk();
         };
-    }*/
+    }
 
     public Companion createCompanion() throws SettlerBuildException {
+        type = SettlerType.COMPANION;
         checkFields();
         register(type);
 
@@ -134,6 +144,7 @@ public class SettlerBuilder {
     }
 
     public Guard createGuard() throws SettlerBuildException {
+        type = SettlerType.GUARD;
         checkFields();
         register(type);
 
@@ -141,6 +152,7 @@ public class SettlerBuilder {
     }
 
     public Townfolk createTownfolk() throws SettlerBuildException {
+        type = SettlerType.TOWN;
         checkFields();
         register(type);
 
@@ -148,6 +160,7 @@ public class SettlerBuilder {
     }
 
     public Nationfolk createNationfolk() throws SettlerBuildException {
+        type = SettlerType.NATION;
         checkFields();
         register(type);
 

@@ -1,16 +1,16 @@
 package io.github.milkdrinkers.settlers.api.event.settler;
 
-import io.github.milkdrinkers.settlers.api.settler.Settler;
+import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
 import org.bukkit.event.Cancellable;
 
 public abstract class AbstractCancellableSettlerEvent extends AbstractSettlerEvent implements Cancellable {
     private boolean cancelled;
 
-    public AbstractCancellableSettlerEvent(Settler settler) {
+    public AbstractCancellableSettlerEvent(AbstractSettler settler) {
         super(settler);
     }
 
-    public AbstractCancellableSettlerEvent(Settler settler, boolean async) {
+    public AbstractCancellableSettlerEvent(AbstractSettler settler, boolean async) {
         super(settler, async);
     }
 

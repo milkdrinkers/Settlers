@@ -1,14 +1,14 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime.movement;
 
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractCancellableSettlerEvent;
-import io.github.milkdrinkers.settlers.api.settler.Settler;
+import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
 import net.citizensnpcs.api.event.NPCMoveEvent;
 import org.bukkit.Location;
 
 public class SettlerMoveEvent extends AbstractCancellableSettlerEvent {
     private final NPCMoveEvent e;
 
-    public SettlerMoveEvent(Settler settler, NPCMoveEvent e) {
+    public SettlerMoveEvent(AbstractSettler settler, NPCMoveEvent e) {
         super(settler);
         this.e = e;
     }

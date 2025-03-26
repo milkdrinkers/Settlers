@@ -1,7 +1,7 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifetime.spawning;
 
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
-import io.github.milkdrinkers.settlers.api.settler.Settler;
+import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
 import net.citizensnpcs.api.event.NPCDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -10,7 +10,7 @@ import java.util.List;
 public class SettlerDeathEvent extends AbstractSettlerEvent {
     private final NPCDeathEvent event;
 
-    public SettlerDeathEvent(Settler settler, NPCDeathEvent event) {
+    public SettlerDeathEvent(AbstractSettler settler, NPCDeathEvent event) {
         super(settler);
         this.event = event;
     }

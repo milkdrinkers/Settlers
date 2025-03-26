@@ -7,17 +7,19 @@ plugins {
     idea
 }
 
+applyCustomVersion()
+
 subprojects {
     apply(plugin = "java-library")
     apply(plugin = rootProject.libs.plugins.shadow.get().pluginId)
 
-    applyCustomVersion()
 
     repositories {
         maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         maven("https://maven.athyrium.eu/releases")
         maven("https://maven.citizensnpcs.co/repo")
+        maven("https://repo.opencollab.dev/main/")
         mavenCentral()
     }
 
