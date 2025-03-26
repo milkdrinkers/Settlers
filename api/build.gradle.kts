@@ -1,117 +1,72 @@
-plugins {
-    alias(libs.plugins.maven.deployer)
-}
+import com.vanniktech.maven.publish.JavaLibrary
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SonatypeHost
 
-val mainPackage = "${rootProject.group}.${rootProject.name.lowercase()}"
+plugins {
+    alias(libs.plugins.publisher)
+}
 
 dependencies {
-    compileOnly(projects.common)
 }
 
-deployer {
-    release {
-        version.set("${rootProject.version}")
+mavenPublishing {
+    coordinates(
+        groupId = "io.github.milkdrinkers",
+        artifactId = "settlers",
+        version = version.toString().let { originalVersion ->
+            if (!originalVersion.contains("-SNAPSHOT"))
+                originalVersion
+            else
+                originalVersion.substringBeforeLast("-SNAPSHOT") + "-SNAPSHOT" // Force append just -SNAPSHOT if snapshot version
+        }
+    )
+
+    pom {
+        name.set(rootProject.name)
         description.set(rootProject.description.orEmpty())
-    }
+        url.set("https://github.com/milkdrinkers/Settlers")
+        inceptionYear.set("2025")
 
-    projectInfo {
-        groupId = "io.github.milkdrinkers"
-        artifactId = "settlers"
-        version = "${rootProject.version}"
+        licenses {
+            license {
+                name.set("GNU General Public License Version 3")
+                url.set("https://www.gnu.org/licenses/gpl-3.0.en.html#license-text")
+                distribution.set("https://www.gnu.org/licenses/gpl-3.0.en.html#license-text")
+            }
+        }
 
-        name = rootProject.name
-        description = rootProject.description.orEmpty()
-        url = "https://github.com/milkdrinkers/settlers"
+        developers {
+            developer {
+                id.set("darksaid98")
+                name.set("darksaid98")
+                url.set("https://github.com/darksaid98")
+                organization.set("Milkdrinkers")
+            }
+            developer {
+                id.set("rooooose-b")
+                name.set("rooooose-b")
+                url.set("https://github.com/rooooose-b")
+                organization.set("Milkdrinkers")
+            }
+        }
 
         scm {
-            connection = "scm:git:git://github.com/milkdrinkers/Settlers.git"
-            developerConnection = "scm:git:ssh://github.com:milkdrinkers/Settlers.git"
-            url = "https://github.com/milkdrinkers/Settlers"
-        }
-
-        license({
-            name = "GNU General Public License Version 3"
-            url = "https://www.gnu.org/licenses/gpl-3.0.en.html#license-text"
-        })
-
-        developer({
-            name.set("darksaid98")
-            email.set("darksaid9889@gmail.com")
-            url.set("https://github.com/darksaid98")
-            organization.set("Milkdrinkers")
-        })
-    }
-
-    content {
-        component {
-            fromJava()
+            url.set("https://github.com/milkdrinkers/Settlers")
+            connection.set("scm:git:git://github.com/milkdrinkers/Settlers.git")
+            developerConnection.set("scm:git:ssh://github.com:milkdrinkers/Settlers.git")
         }
     }
 
-    centralPortalSpec {
-        auth.user.set(secret("MAVEN_USERNAME"))
-        auth.password.set(secret("MAVEN_PASSWORD"))
-    }
+    configure(JavaLibrary(
+        javadocJar = JavadocJar.None(), // We want to use our own javadoc jar
+    ))
 
-    signing {
-        key.set(secret("GPG_KEY"))
-        password.set(secret("GPG_PASSWORD"))
-    }
+    // Publish to Maven Central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+
+    // Sign all publications
+    signAllPublications()
+
+    // Skip signing for local tasks
+    tasks.withType<Sign>().configureEach { onlyIf { !gradle.taskGraph.allTasks.any { it is PublishToMavenLocal } } }
 }
-
-/*
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            groupId = "${rootProject.group}"
-            artifactId = "settlers-api"
-            version = "${rootProject.version}"
-
-            pom {
-                name.set("Settlers")
-                description.set(rootProject.description.orEmpty())
-                url.set("https://github.com/milkdrinkers/Settlers")
-                licenses {
-                    license {
-                        name.set("GPL-v3.0")
-                        url.set("http://www.gnu.org/licenses/gpl-3.0.txt")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("darksaid98")
-                        name.set("darksaid98")
-                        organization.set("Milkdrinkers")
-                        organizationUrl.set("https://github.com/milkdrinkers")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/milkdrinkers/Settlers.git")
-                    developerConnection.set("scm:git:ssh://github.com:milkdrinkers/Settlers.git")
-                    url.set("https://github.com/milkdrinkers/Settlers")
-                }
-            }
-
-            from(components["java"])
-        }
-    }
-
-    repositories {
-        maven {
-            name = "releases"
-            url = uri("https://maven.athyrium.eu/releases")
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-        }
-        maven {
-            name = "snapshots"
-            url = uri("https://maven.athyrium.eu/snapshots")
-            credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
-            }
-        }
-    }
-}*/

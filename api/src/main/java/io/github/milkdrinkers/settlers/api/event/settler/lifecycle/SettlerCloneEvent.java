@@ -1,17 +1,17 @@
 package io.github.milkdrinkers.settlers.api.event.settler.lifecycle;
 
 import io.github.milkdrinkers.settlers.api.event.settler.AbstractSettlerEvent;
-import io.github.milkdrinkers.settlers.api.settler.Settler;
+import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
 
 public class SettlerCloneEvent extends AbstractSettlerEvent {
-    private final Settler clone;
+    private final AbstractSettler clone;
 
-    public SettlerCloneEvent(Settler settler, Settler clone) {
+    public SettlerCloneEvent(AbstractSettler settler, AbstractSettler clone) {
         super(settler);
         this.clone = clone;
     }
 
-    public Settler getClone() {
+    public AbstractSettler getClone() {
         return clone;
     }
 }
