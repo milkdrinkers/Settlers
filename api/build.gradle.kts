@@ -9,6 +9,18 @@ plugins {
 dependencies {
 }
 
+tasks.build {
+    dependsOn(tasks.shadowJar)
+}
+
+tasks.shadowJar {
+    archiveClassifier.set("")
+}
+
+java {
+    withJavadocJar()
+}
+
 mavenPublishing {
     coordinates(
         groupId = "io.github.milkdrinkers",

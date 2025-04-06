@@ -26,6 +26,10 @@ tasks {
         dependsOn(shadowJar)
     }
 
+    jar {
+        archiveBaseName.set(rootProject.name)
+    }
+
     shadowJar {
         archiveBaseName.set(rootProject.name)
         archiveClassifier.set("")

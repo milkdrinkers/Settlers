@@ -3,21 +3,29 @@ import java.time.Instant
 plugins {
     `java-library`
     alias(libs.plugins.shadow) apply false
+
     eclipse
     idea
 }
 
 applyCustomVersion()
 
+tasks {
+    jar {
+        enabled = false
+    }
+}
+
 subprojects {
     apply(plugin = "java-library")
     apply(plugin = rootProject.libs.plugins.shadow.get().pluginId)
 
+    project.version = rootProject.version
+    project.description = rootProject.description
 
     repositories {
         maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-        maven("https://maven.athyrium.eu/releases")
         maven("https://maven.citizensnpcs.co/repo")
         maven("https://repo.opencollab.dev/main/")
         mavenCentral()
@@ -35,14 +43,11 @@ subprojects {
 
     java {
         toolchain.languageVersion.set(JavaLanguageVersion.of(21))
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
-        withJavadocJar()
-        withSourcesJar()
     }
 
     tasks {
         compileJava {
+            options.release.set(21)
             options.encoding = Charsets.UTF_8.name()
             options.compilerArgs.addAll(arrayListOf("-Xlint:all", "-Xlint:-processing", "-Xdiags:verbose"))
         }
@@ -66,7 +71,7 @@ subprojects {
 
 fun applyCustomVersion() {
     // Apply custom version arg or append snapshot version
-    val ver = properties["altVer"]?.toString() ?: "${rootProject.version}-SNAPSHOT-${Instant.now().epochSecond}"
+    val ver = properties["altVer"]?.toString() ?: "${rootProject.version}-SNAPSHOT.${Instant.now().epochSecond}"
 
     // Strip prefixed "v" from version tag
     rootProject.version = (if (ver.first().equals('v', true)) ver.substring(1) else ver.uppercase()).uppercase()
