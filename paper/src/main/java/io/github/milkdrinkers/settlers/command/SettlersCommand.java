@@ -1,6 +1,7 @@
 package io.github.milkdrinkers.settlers.command;
 
 import dev.jorel.commandapi.CommandAPICommand;
+import dev.jorel.commandapi.arguments.StringArgument;
 import dev.jorel.commandapi.executors.CommandArguments;
 import io.github.milkdrinkers.colorparser.ColorParser;
 import io.github.milkdrinkers.settlers.api.settler.Companion;
@@ -43,18 +44,18 @@ public class SettlersCommand implements Command {
 
     private CommandAPICommand spawnCompanion() {
         return new CommandAPICommand("companion")
+            .withArguments(
+                new StringArgument("name")
+            )
             .executesPlayer((sender, args) -> {
-
                 final Block block = sender.getTargetBlockExact(50, FluidCollisionMode.ALWAYS);
                 assert block != null;
                 final Location spawnLocation = block.getLocation().toHighestLocation();
 
                 final Companion settler = new SettlerBuilder()
-                    .setName("Lydia")
+                    .setName((String) args.get("name"))
                     .setLocation(spawnLocation)
                     .createCompanion();
-
-                settler.isSpawned();
 
                 settler.spawn(spawnLocation);
             });
