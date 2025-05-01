@@ -67,7 +67,7 @@ public class CitizensListener implements Listener {
             clickType = ClickType.LEFT;
 
         SettlerClickedEvent firedEvent = new SettlerClickedEvent(settler, clickType, e.getClicker());
-        final boolean isCancelled = firedEvent.callEvent();
+        final boolean isCancelled = !firedEvent.callEvent();
         e.setCancelled(isCancelled);
     }
 
@@ -86,7 +86,7 @@ public class CitizensListener implements Listener {
             clickType = ClickType.RIGHT;
 
         SettlerClickedEvent firedEvent = new SettlerClickedEvent(settler, clickType, e.getClicker());
-        final boolean isCancelled = firedEvent.callEvent();
+        final boolean isCancelled = !firedEvent.callEvent();
         e.setCancelled(isCancelled);
     }
 
@@ -219,8 +219,8 @@ public class CitizensListener implements Listener {
     public void onSeen(NPCSeenByPlayerEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerSeenByPlayerEvent(SettlersAPI.getSettler(e.getNPC()), e.getPlayer()).callEvent();
-        e.setCancelled(cancelled);
+        final boolean isCancelled = !new SettlerSeenByPlayerEvent(SettlersAPI.getSettler(e.getNPC()), e.getPlayer()).callEvent();
+        e.setCancelled(isCancelled);
     }
 
     @EventHandler
@@ -228,7 +228,7 @@ public class CitizensListener implements Listener {
     public void onRename(NPCRenameEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerRenameEvent(SettlersAPI.getSettler(e.getNPC()), e).callEvent();
+        final boolean isCancelled = !new SettlerRenameEvent(SettlersAPI.getSettler(e.getNPC()), e).callEvent();
         e.setNewName(e.getOldName());
     }
 
@@ -306,8 +306,8 @@ public class CitizensListener implements Listener {
             e.getNPC().getEntity().setMetadata(META_TOWNFOLK, new FixedMetadataValue(SettlersAPI.getImplementation(), META_TOWNFOLK));
         }
 
-        final boolean cancelled = new SettlerSpawnEvent(SettlersAPI.getSettler(e.getNPC()), e.getLocation(), e.getReason()).callEvent();
-        e.setCancelled(cancelled);
+        final boolean isCancelled = !new SettlerSpawnEvent(SettlersAPI.getSettler(e.getNPC()), e.getLocation(), e.getReason()).callEvent();
+        e.setCancelled(isCancelled);
     }
 
     @EventHandler
@@ -315,8 +315,8 @@ public class CitizensListener implements Listener {
     public void onDespawn(NPCDespawnEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerDespawnEvent(SettlersAPI.getSettler(e.getNPC()), e.getReason()).callEvent();
-        e.setCancelled(cancelled);
+        final boolean isCancelled = !new SettlerDespawnEvent(SettlersAPI.getSettler(e.getNPC()), e.getReason()).callEvent();
+        e.setCancelled(isCancelled);
     }
 
     @EventHandler
@@ -356,8 +356,8 @@ public class CitizensListener implements Listener {
     public void onTeleport(NPCTeleportEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerTeleportEvent(SettlersAPI.getSettler(e.getNPC()), e.getFrom(), e.getTo()).callEvent();
-        e.setCancelled(cancelled);
+        final boolean isCancelled = !new SettlerTeleportEvent(SettlersAPI.getSettler(e.getNPC()), e.getFrom(), e.getTo()).callEvent();
+        e.setCancelled(isCancelled);
     }
 
     @EventHandler
@@ -365,8 +365,8 @@ public class CitizensListener implements Listener {
     public void onPush(NPCPushEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerPushEvent(SettlersAPI.getSettler(e.getNPC()), e.getCollisionVector(), e.getPushedBy()).callEvent();
-        e.setCancelled(cancelled);
+        final boolean isCancelled = !new SettlerPushEvent(SettlersAPI.getSettler(e.getNPC()), e.getCollisionVector(), e.getPushedBy()).callEvent();
+        e.setCancelled(isCancelled);
     }
 
     @EventHandler
@@ -374,8 +374,8 @@ public class CitizensListener implements Listener {
     public void onPistonPush(NPCPistonPushEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerPistonPushEvent(SettlersAPI.getSettler(e.getNPC())).callEvent();
-        e.setCancelled(cancelled);
+        final boolean isCancelled = !new SettlerPistonPushEvent(SettlersAPI.getSettler(e.getNPC())).callEvent();
+        e.setCancelled(isCancelled);
     }
 
     @EventHandler
@@ -383,8 +383,8 @@ public class CitizensListener implements Listener {
     public void onMove(NPCMoveEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerMoveEvent(SettlersAPI.getSettler(e.getNPC()), e).callEvent();
-        e.setCancelled(cancelled);
+        final boolean isCancelled = !new SettlerMoveEvent(SettlersAPI.getSettler(e.getNPC()), e).callEvent();
+        e.setCancelled(isCancelled);
     }
 
     @EventHandler
@@ -408,8 +408,8 @@ public class CitizensListener implements Listener {
     public void onNPCOpenDoor(NPCOpenDoorEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerOpenEvent(SettlersAPI.getSettler(e.getNPC()), e.getDoor(), DoorType.DOOR).callEvent();
-        e.setCancelled(cancelled);
+        final boolean isCancelled = !new SettlerOpenEvent(SettlersAPI.getSettler(e.getNPC()), e.getDoor(), DoorType.DOOR).callEvent();
+        e.setCancelled(isCancelled);
     }
 
     @EventHandler
@@ -417,7 +417,7 @@ public class CitizensListener implements Listener {
     public void onNPCOpenGate(NPCOpenGateEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerOpenEvent(SettlersAPI.getSettler(e.getNPC()), e.getGate(), DoorType.GATE).callEvent();
-        e.setCancelled(cancelled);
+        final boolean isCancelled = !new SettlerOpenEvent(SettlersAPI.getSettler(e.getNPC()), e.getGate(), DoorType.GATE).callEvent();
+        e.setCancelled(isCancelled);
     }
 }

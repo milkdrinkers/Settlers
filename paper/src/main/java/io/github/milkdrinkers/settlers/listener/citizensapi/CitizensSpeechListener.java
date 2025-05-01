@@ -22,7 +22,7 @@ public class CitizensSpeechListener implements Listener {
     public void onSpeech(NPCSpeechEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean cancelled = new SettlerSpeechEvent(SettlersAPI.getSettler(e.getNPC()), e.getContext()).callEvent();
-        e.setCancelled(cancelled);
+        final boolean isCancelled = !new SettlerSpeechEvent(SettlersAPI.getSettler(e.getNPC()), e.getContext()).callEvent();
+        e.setCancelled(isCancelled);
     }
 }
