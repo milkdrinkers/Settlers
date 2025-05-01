@@ -11,13 +11,15 @@ public final class APILifecycle {
      * Call API load events and iterate npc's to add them to lookup tables.
      */
     public static void startup(ISettlersPlugin plugin) {
+        // Notify plugins that API loaded
+        plugin.setAPIState(true);
+
+        // Loading needs to be after API state is set to enabled to allow API to access the plugin when registering Settlers
         final RegistryHolder registries = (RegistryHolder) plugin.getRegistryHandler().getRegistry();
         final LookupHolder lookupHolder = (LookupHolder) plugin.getLookupHandler().getHolder();
         registries.onInit(plugin);
         lookupHolder.onInit(plugin);
 
-        // Notify plugins that API loaded
-        plugin.setAPIState(true);
         new SettlersAPILoadedEvent().callEvent();
     }
 
