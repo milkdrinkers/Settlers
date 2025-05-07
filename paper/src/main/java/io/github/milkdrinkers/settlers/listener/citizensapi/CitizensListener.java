@@ -1,6 +1,7 @@
 package io.github.milkdrinkers.settlers.listener.citizensapi;
 
 import io.github.milkdrinkers.settlers.ISettlersPlugin;
+import io.github.milkdrinkers.settlers.Settlers;
 import io.github.milkdrinkers.settlers.api.SettlersAPI;
 import io.github.milkdrinkers.settlers.api.enums.ClickType;
 import io.github.milkdrinkers.settlers.api.enums.DoorType;
@@ -298,12 +299,44 @@ public class CitizensListener implements Listener {
 
         if (e.getNPC().hasTrait(CompanionTrait.class)) {
             e.getNPC().getEntity().setMetadata(META_COMPANION, new FixedMetadataValue(SettlersAPI.getImplementation(), META_COMPANION));
+
+            boolean settlerExists = Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().lookupKey(e.getNPC()) != null;
+            if (!settlerExists) {
+                final AbstractSettler settler = new SettlerBuilder()
+                    .setNpc(e.getNPC())
+                    .createCompanion();
+
+                Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().add(settler, e.getNPC());
+                if (settler.isSpawned())
+                    Settlers.getInstance().getLookupHandler().getHolder().getEntityLookupTable().add(settler, e.getNPC().getEntity());
+            }
         } else if (e.getNPC().hasTrait(GuardTrait.class)) {
             e.getNPC().getEntity().setMetadata(META_GUARD, new FixedMetadataValue(SettlersAPI.getImplementation(), META_GUARD));
+            final AbstractSettler settler = new SettlerBuilder()
+                .setNpc(e.getNPC())
+                .createGuard();
+
+            Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().add(settler, e.getNPC());
+            if (settler.isSpawned())
+                Settlers.getInstance().getLookupHandler().getHolder().getEntityLookupTable().add(settler, e.getNPC().getEntity());
         } else if (e.getNPC().hasTrait(NationFolkTrait.class)) {
             e.getNPC().getEntity().setMetadata(META_NATIONFOLK, new FixedMetadataValue(SettlersAPI.getImplementation(), META_NATIONFOLK));
+            final AbstractSettler settler = new SettlerBuilder()
+                .setNpc(e.getNPC())
+                .createNationfolk();
+
+            Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().add(settler, e.getNPC());
+            if (settler.isSpawned())
+                Settlers.getInstance().getLookupHandler().getHolder().getEntityLookupTable().add(settler, e.getNPC().getEntity());
         } else if (e.getNPC().hasTrait(TownFolkTrait.class)) {
             e.getNPC().getEntity().setMetadata(META_TOWNFOLK, new FixedMetadataValue(SettlersAPI.getImplementation(), META_TOWNFOLK));
+            final AbstractSettler settler = new SettlerBuilder()
+                .setNpc(e.getNPC())
+                .createTownfolk();
+
+            Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().add(settler, e.getNPC());
+            if (settler.isSpawned())
+                Settlers.getInstance().getLookupHandler().getHolder().getEntityLookupTable().add(settler, e.getNPC().getEntity());
         }
 
         final boolean isCancelled = !new SettlerSpawnEvent(SettlersAPI.getSettler(e.getNPC()), e.getLocation(), e.getReason()).callEvent();
