@@ -20,7 +20,7 @@ public class CommandHandler implements Reloadable {
             new CommandAPIBukkitConfig((JavaPlugin) plugin)
                 .shouldHookPaperReload(true)
                 .silentLogs(true)
-                .usePluginNamespace()
+                .setNamespace(plugin.getName().toLowerCase())
                 .beLenientForMinorVersions(true)
         );
         commands.add(
