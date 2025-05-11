@@ -230,7 +230,8 @@ public class CitizensListener implements Listener {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
         final boolean isCancelled = !new SettlerRenameEvent(SettlersAPI.getSettler(e.getNPC()), e).callEvent();
-        e.setNewName(e.getOldName());
+        if (isCancelled)
+            e.setNewName(e.getOldName());
     }
 
     @EventHandler
