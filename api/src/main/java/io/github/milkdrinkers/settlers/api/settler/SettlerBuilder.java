@@ -106,7 +106,7 @@ public class SettlerBuilder {
             }
             case NATION -> {
                 if (!ephemeral) {
-                    setNpc(createNPC(SettlersAPI.getRegistryTown(), name, location, id, uuid));
+                    setNpc(createNPC(SettlersAPI.getRegistryNation(), name, location, id, uuid));
                 } else {
                     setNpc(createNPC(SettlersAPI.getRegistryEphemeralTown(), name, location, id, uuid));
                 }
@@ -114,7 +114,7 @@ public class SettlerBuilder {
             }
             case TOWN -> {
                 if (!ephemeral) {
-                    setNpc(createNPC(SettlersAPI.getRegistryNation(), name, location, id, uuid));
+                    setNpc(createNPC(SettlersAPI.getRegistryTown(), name, location, id, uuid));
                 } else {
                     setNpc(createNPC(SettlersAPI.getRegistryEphemeralNation(), name, location, id, uuid));
                 }
