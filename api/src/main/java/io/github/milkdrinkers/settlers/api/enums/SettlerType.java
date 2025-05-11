@@ -4,7 +4,7 @@ public enum SettlerType {
     COMPANION("companions"),
     GUARD("guards"),
     NATION("nationfolk"),
-    TOWN("tonwfolk");
+    TOWN("townfolk");
 
     private final String name;
 

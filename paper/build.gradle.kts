@@ -58,8 +58,8 @@ tasks {
 
         // Plugins
         downloadPlugins {
-            hangar("ViaVersion", "5.2.1")
-            hangar("ViaBackwards", "5.2.1")
+            hangar("ViaVersion", "5.3.2")
+            hangar("ViaBackwards", "5.3.2")
             url("https://ci.citizensnpcs.co/job/Citizens2/lastStableBuild/artifact/dist/target/Citizens-2.0.38-b3791.jar")
         }
     }
