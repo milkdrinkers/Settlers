@@ -1,9 +1,11 @@
 package io.github.milkdrinkers.settlers.api.settler;
 
+import io.github.milkdrinkers.settlers.ISettlersPlugin;
 import io.github.milkdrinkers.settlers.api.SettlersAPI;
 import io.github.milkdrinkers.settlers.api.enums.SettlerType;
 import io.github.milkdrinkers.settlers.api.exception.SettlerBuildException;
 import io.github.milkdrinkers.settlers.api.trait.*;
+import io.github.milkdrinkers.settlers.registry.IRegistryHandler;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.kyori.adventure.text.Component;
@@ -91,6 +93,13 @@ public class SettlerBuilder {
             case COMPANION -> {
                 if (!ephemeral) {
                     setNpc(createNPC(SettlersAPI.getRegistryCompanion(), name, location, id, uuid));
+
+                    SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.COMPANION).getDataStore().getDataStore().
+                        storeAll(SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.COMPANION).getPersistentRegistry());
+
+                    SettlersAPI.getImplementation().getServer().getScheduler().runTaskAsynchronously(SettlersAPI.getImplementation(), () -> {
+                        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.COMPANION).getDataStore().getDataStore().saveToDiskImmediate();
+                    });
                 } else {
                     setNpc(createNPC(SettlersAPI.getRegistryEphemeralCompanion(), name, location, id, uuid));
                 }
@@ -99,6 +108,11 @@ public class SettlerBuilder {
             case GUARD -> {
                 if (!ephemeral) {
                     setNpc(createNPC(SettlersAPI.getRegistryGuard(), name, location, id, uuid));
+                    SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.GUARD).getDataStore().getDataStore().store(npc);
+
+                    SettlersAPI.getImplementation().getServer().getScheduler().runTaskAsynchronously(SettlersAPI.getImplementation(), () -> {
+                        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.GUARD).getDataStore().getDataStore().saveToDiskImmediate();
+                    });
                 } else {
                     setNpc(createNPC(SettlersAPI.getRegistryEphemeralGuard(), name, location, id, uuid));
                 }
@@ -107,6 +121,11 @@ public class SettlerBuilder {
             case NATION -> {
                 if (!ephemeral) {
                     setNpc(createNPC(SettlersAPI.getRegistryNation(), name, location, id, uuid));
+                    SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.NATION).getDataStore().getDataStore().store(npc);
+
+                    SettlersAPI.getImplementation().getServer().getScheduler().runTaskAsynchronously(SettlersAPI.getImplementation(), () -> {
+                        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.NATION).getDataStore().getDataStore().saveToDiskImmediate();
+                    });
                 } else {
                     setNpc(createNPC(SettlersAPI.getRegistryEphemeralTown(), name, location, id, uuid));
                 }
@@ -115,6 +134,11 @@ public class SettlerBuilder {
             case TOWN -> {
                 if (!ephemeral) {
                     setNpc(createNPC(SettlersAPI.getRegistryTown(), name, location, id, uuid));
+                    SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.TOWN).getDataStore().getDataStore().store(npc);
+
+                    SettlersAPI.getImplementation().getServer().getScheduler().runTaskAsynchronously(SettlersAPI.getImplementation(), () -> {
+                        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.TOWN).getDataStore().getDataStore().saveToDiskImmediate();
+                    });
                 } else {
                     setNpc(createNPC(SettlersAPI.getRegistryEphemeralNation(), name, location, id, uuid));
                 }
