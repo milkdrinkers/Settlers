@@ -8,6 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public abstract class AbstractSettler {
     private final NPC npc;
 
@@ -110,5 +112,16 @@ public abstract class AbstractSettler {
      */
     public static SettlerBuilder builder() {
         return new SettlerBuilder();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof AbstractSettler settler)) return false;
+        return Objects.equals(hashCode(), settler.hashCode());
+    }
+
+    @Override
+    public int hashCode() {
+        return getNpc().getUniqueId().hashCode();
     }
 }
