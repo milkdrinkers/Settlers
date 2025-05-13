@@ -3,9 +3,8 @@ package io.github.milkdrinkers.settlers.lookup;
 import io.github.milkdrinkers.settlers.ISettlersPlugin;
 import io.github.milkdrinkers.settlers.api.ILifecycle;
 import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
-import io.github.milkdrinkers.settlers.api.settler.Nationfolk;
-import io.github.milkdrinkers.settlers.api.settler.SettlerBuilder;
 import io.github.milkdrinkers.settlers.registry.IRegistryHolder;
+import io.github.milkdrinkers.settlers.utility.Utils;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Listener;
@@ -22,10 +21,12 @@ public class LookupHolder implements ILookupHolder, Listener, ILifecycle {
 
     protected LookupHolder(ISettlersPlugin plugin) {
         this.plugin = plugin;
+        this.npcILookupTable = new NPCLookupTable(plugin);
+        this.entityILookupTable = new EntityLookupTable(plugin);
     }
 
-    private final ILookupTable<AbstractSettler, NPC> npcILookupTable = new LookupTable<>();
-    private final ILookupTable<AbstractSettler, Entity> entityILookupTable = new LookupTable<>();
+    private final ILookupTable<AbstractSettler, NPC> npcILookupTable;
+    private final ILookupTable<AbstractSettler, Entity> entityILookupTable;
 
     @Override
     public ILookupTable<AbstractSettler, NPC> getNpcLookupTable() {
@@ -49,41 +50,50 @@ public class LookupHolder implements ILookupHolder, Listener, ILifecycle {
 
         // Add NPC's & Entities to lookup tables
         for (NPC npc : registries.getRegistryCompanion()) {
-            final AbstractSettler settler = new SettlerBuilder()
-                .setNpc(npc)
-                .createCompanion();
-
-            getNpcLookupTable().add(settler, npc);
-            if (settler.isSpawned())
-                getEntityLookupTable().add(settler, npc.getEntity());
+            registerSettler(npc);
         }
         for (NPC npc : registries.getRegistryGuard()) {
-            final AbstractSettler settler = new SettlerBuilder()
-                .setNpc(npc)
-                .createGuard();
-
-            getNpcLookupTable().add(settler, npc);
-            if (settler.isSpawned())
-                getEntityLookupTable().add(settler, npc.getEntity());
+            registerSettler(npc);
         }
         for (NPC npc : registries.getRegistryNation()) {
-            final Nationfolk settler = new SettlerBuilder()
-                .setNpc(npc)
-                .createNationfolk();
-
-            getNpcLookupTable().add(settler, npc);
-            if (settler.isSpawned())
-                getEntityLookupTable().add(settler, npc.getEntity());
+            registerSettler(npc);
         }
         for (NPC npc : registries.getRegistryTown()) {
-            final AbstractSettler settler = new SettlerBuilder()
-                .setNpc(npc)
-                .createTownfolk();
-
-            getNpcLookupTable().add(settler, npc);
-            if (settler.isSpawned())
-                getEntityLookupTable().add(settler, npc.getEntity());
+            registerSettler(npc);
         }
+    }
+
+    /**
+     * Registers a settler for the given NPC. This will create a new settler object and add it to the lookup tables.
+     * @param npc the NPC to register
+     */
+    @ApiStatus.Internal
+    public void registerSettler(NPC npc) {
+        final AbstractSettler settler = Utils.createSettler(npc);
+        if (settler == null) {
+            plugin.getSLF4JLogger().warn("Failed to register settler for NPC: {}", npc.getName());
+            return;
+        }
+
+        if (npc.isSpawned()) {
+            final Entity entity = npc.getEntity();
+
+            Utils.applySettlerEntityMetadata(npc, entity);
+        }
+
+        addToLookupTables(settler, npc);
+    }
+
+    /**
+     * Adds the settler, npc, and potentially entity to the lookup tables.
+     * @param settler the settler to add
+     * @param npc the npc to add
+     */
+    @ApiStatus.Internal
+    private void addToLookupTables(AbstractSettler settler, NPC npc) {
+        getNpcLookupTable().add(settler, npc);
+        if (settler.isSpawned())
+            getEntityLookupTable().add(settler, npc.getEntity());
     }
 
     @Override

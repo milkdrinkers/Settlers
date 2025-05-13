@@ -1,7 +1,6 @@
 package io.github.milkdrinkers.settlers.listener.citizensapi;
 
 import io.github.milkdrinkers.settlers.ISettlersPlugin;
-import io.github.milkdrinkers.settlers.Settlers;
 import io.github.milkdrinkers.settlers.api.SettlersAPI;
 import io.github.milkdrinkers.settlers.api.enums.ClickType;
 import io.github.milkdrinkers.settlers.api.enums.DoorType;
@@ -30,6 +29,8 @@ import io.github.milkdrinkers.settlers.api.event.settler.lifetime.trait.SettlerT
 import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
 import io.github.milkdrinkers.settlers.api.settler.SettlerBuilder;
 import io.github.milkdrinkers.settlers.api.trait.*;
+import io.github.milkdrinkers.settlers.lookup.LookupHolder;
+import io.github.milkdrinkers.settlers.utility.Utils;
 import net.citizensnpcs.NPCNeedsRespawnEvent;
 import net.citizensnpcs.api.event.*;
 import net.citizensnpcs.api.npc.NPC;
@@ -48,9 +49,11 @@ import static io.github.milkdrinkers.settlers.api.SettlersAPI.*;
  */
 public class CitizensListener implements Listener {
     private final ISettlersPlugin plugin;
+    private final LookupHolder lookupHolder;
 
     public CitizensListener(ISettlersPlugin plugin) {
         this.plugin = plugin;
+        this.lookupHolder = (LookupHolder) plugin.getLookupHandler().getHolder();
     }
 
     @EventHandler
@@ -294,47 +297,45 @@ public class CitizensListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     @SuppressWarnings("unused")
     public void onSpawn(NPCSpawnEvent e) {
-        if (!e.getNPC().hasTrait(SettlerTrait.class)) return;
+        if (!e.getNPC().hasTrait(SettlerTrait.class)) // Explicitly check using trait as metadata is not yet set on new NPC
+            return;
 
-        e.getNPC().getEntity().setMetadata(META_SETTLER, new FixedMetadataValue(SettlersAPI.getImplementation(), META_SETTLER));
+        Utils.applySettlerEntityMetadata(e.getNPC(), e.getNPC().getEntity());
 
-        SettlerBuilder builder = new SettlerBuilder().setNpc(e.getNPC());
-        @Nullable AbstractSettler settler = null;
+        final @Nullable AbstractSettler settler = SettlersAPI.getSettler(e.getNPC());
+        if (settler == null)
+            throw new IllegalStateException("Settler was null while spawning");
 
-        if (e.getNPC().hasTrait(CompanionTrait.class)) {
-            e.getNPC().getEntity().setMetadata(META_COMPANION, new FixedMetadataValue(SettlersAPI.getImplementation(), META_COMPANION));
-            settler = builder.createCompanion();
-        } else if (e.getNPC().hasTrait(GuardTrait.class)) {
-            e.getNPC().getEntity().setMetadata(META_GUARD, new FixedMetadataValue(SettlersAPI.getImplementation(), META_GUARD));
-            settler = builder.createGuard();
-        } else if (e.getNPC().hasTrait(NationFolkTrait.class)) {
-            e.getNPC().getEntity().setMetadata(META_NATIONFOLK, new FixedMetadataValue(SettlersAPI.getImplementation(), META_NATIONFOLK));
-            settler = builder.createNationfolk();
-        } else if (e.getNPC().hasTrait(TownFolkTrait.class)) {
-            e.getNPC().getEntity().setMetadata(META_TOWNFOLK, new FixedMetadataValue(SettlersAPI.getImplementation(), META_TOWNFOLK));
-            settler = builder.createTownfolk();
+        final boolean isCancelled = !new SettlerSpawnEvent(settler, e.getLocation(), e.getReason()).callEvent();
+        if (!isCancelled) {
+            // Entity should always be valid by this point, or do nothing
+            if (settler.isSpawned()) {
+                plugin.getLookupHandler().getHolder().getEntityLookupTable().add(
+                    settler,
+                    e.getNPC().getEntity()
+                );
+            }
         }
-
-        if (settler == null) throw new IllegalStateException("Settler was null.");
-
-        boolean settlerExists = Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().hasValue(e.getNPC());
-
-        if (!settlerExists) {
-            Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().add(settler, e.getNPC());
-            if (settler.isSpawned())
-                Settlers.getInstance().getLookupHandler().getHolder().getEntityLookupTable().add(settler, e.getNPC().getEntity());
-        }
-
-        final boolean isCancelled = !new SettlerSpawnEvent(SettlersAPI.getSettler(e.getNPC()), e.getLocation(), e.getReason()).callEvent();
         e.setCancelled(isCancelled);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     @SuppressWarnings("unused")
     public void onDespawn(NPCDespawnEvent e) {
         if (!SettlersAPI.isSettler(e.getNPC())) return;
 
-        final boolean isCancelled = !new SettlerDespawnEvent(SettlersAPI.getSettler(e.getNPC()), e.getReason()).callEvent();
+        final @Nullable AbstractSettler settler = SettlersAPI.getSettler(e.getNPC());
+        if (settler == null)
+            throw new IllegalStateException("Settler was null while despawning");
+
+        final boolean isCancelled = !new SettlerDespawnEvent(settler, e.getReason()).callEvent();
+        if (!isCancelled) {
+            // Entity should always be valid by this point, or do nothing
+            if (settler.isSpawned()) {
+                plugin.getLookupHandler().getHolder().getEntityLookupTable().removeByKey(settler);
+            }
+        }
+
         e.setCancelled(isCancelled);
     }
 

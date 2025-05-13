@@ -2,7 +2,10 @@ package io.github.milkdrinkers.settlers.listener;
 
 import io.github.milkdrinkers.settlers.ISettlersPlugin;
 import io.github.milkdrinkers.settlers.Reloadable;
-import io.github.milkdrinkers.settlers.listener.citizensapi.*;
+import io.github.milkdrinkers.settlers.listener.citizensapi.CitizensLifecycleListener;
+import io.github.milkdrinkers.settlers.listener.citizensapi.CitizensListener;
+import io.github.milkdrinkers.settlers.listener.citizensapi.CitizensNavigationListener;
+import io.github.milkdrinkers.settlers.listener.citizensapi.CitizensSpeechListener;
 import io.github.milkdrinkers.settlers.listener.settlersapi.SettlersListener;
 import org.bukkit.event.Listener;
 
@@ -17,7 +20,6 @@ public class ListenerHandler implements Reloadable {
         listeners.addAll(
             List.of(
                 new CitizensLifecycleListener(plugin),
-                new CitizenLookupTableListener(plugin),
                 new CitizensListener(plugin),
                 new CitizensNavigationListener(plugin),
                 new CitizensSpeechListener(plugin),
