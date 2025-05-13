@@ -2,14 +2,12 @@ package io.github.milkdrinkers.settlers.api;
 
 import io.github.milkdrinkers.settlers.api.enums.SettlerType;
 import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
-import io.github.milkdrinkers.settlers.api.trait.CompanionTrait;
-import io.github.milkdrinkers.settlers.api.trait.GuardTrait;
-import io.github.milkdrinkers.settlers.api.trait.NationFolkTrait;
-import io.github.milkdrinkers.settlers.api.trait.TownFolkTrait;
+import io.github.milkdrinkers.settlers.api.trait.*;
 import io.github.milkdrinkers.settlers.registry.IRegistryHolder;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class SettlersAPI extends AbstractSettlersAPI {
@@ -23,17 +21,103 @@ public final class SettlersAPI extends AbstractSettlersAPI {
     public static final String META_NATIONFOLK = "NATIONFOLK";
     public static final String META_TOWNFOLK = "TOWNFOLK";
 
-    public static boolean isNPC(Entity entity) {
+    /**
+     * Check if the entity is a NPC.
+     * @param entity entity
+     * @return true if the entity is a NPC, false otherwise
+     */
+    public static boolean isNPC(@NotNull Entity entity) {
         return entity.isValid() && entity.hasMetadata(META_NPC);
     }
 
-    public static boolean isSettler(Entity entity) {
+    /**
+     * Check if the entity is a settler.
+     * @param entity entity
+     * @return true if the entity is a settler, false otherwise
+     */
+    public static boolean isSettler(@NotNull Entity entity) {
         return isNPC(entity) && entity.hasMetadata(META_SETTLER);
     }
 
-    public static boolean isSettler(NPC npc) {
-        final Entity entity = npc.getEntity();
-        return entity != null && isSettler(entity);
+    /**
+     * Check if the entity is a companion.
+     * @param entity entity
+     * @return true if the entity is a companion, false otherwise
+     */
+    public static boolean isCompanion(@NotNull Entity entity) {
+        return isNPC(entity) && entity.hasMetadata(META_COMPANION);
+    }
+
+    /**
+     * Check if the entity is a guard.
+     * @param entity entity
+     * @return true if the entity is a guard, false otherwise
+     */
+    public static boolean isGuard(@NotNull Entity entity) {
+        return isNPC(entity) && entity.hasMetadata(META_GUARD);
+    }
+
+    /**
+     * Check if the entity is a nation folk.
+     * @param entity entity
+     * @return true if the entity is a nation folk, false otherwise
+     */
+    public static boolean isNationFolk(@NotNull Entity entity) {
+        return isNPC(entity) && entity.hasMetadata(META_NATIONFOLK);
+    }
+
+    /**
+     * Check if the entity is a town folk.
+     * @param entity entity
+     * @return true if the entity is a town folk, false otherwise
+     */
+    public static boolean isTownFolk(@NotNull Entity entity) {
+        return isNPC(entity) && entity.hasMetadata(META_TOWNFOLK);
+    }
+
+    /**
+     * Check if the npc is a settler.
+     * @param npc npc
+     * @return true if the npc is a settler, false otherwise
+     */
+    public static boolean isSettler(@NotNull NPC npc) {
+        return npc.hasTrait(SettlerTrait.class);
+    }
+
+    /**
+     * Check if the npc is a companion.
+     * @param npc npc
+     * @return true if the npc is a companion, false otherwise
+     */
+    public static boolean isCompanion(@NotNull NPC npc) {
+        return npc.hasTrait(CompanionTrait.class);
+    }
+
+    /**
+     * Check if the npc is a guard.
+     * @param npc npc
+     * @return true if the npc is a guard, false otherwise
+     */
+    public static boolean isGuard(@NotNull NPC npc) {
+        return npc.hasTrait(GuardTrait.class);
+    }
+
+    /**
+     * Check if the npc is a nation folk.
+     * @param npc npc
+     * @return true if the npc is a nation folk, false otherwise
+     */
+    public static boolean isNationFolk(@NotNull NPC npc) {
+        return npc.hasTrait(NationFolkTrait.class);
+    }
+
+    /**
+     * Check if the npc is a town folk.
+     * @param npc npc
+     * @return true if the npc is a town folk, false otherwise
+     */
+    public static boolean isTownFolk(@NotNull NPC npc) {
+        return npc.hasTrait(TownFolkTrait.class);
     }
 
     /**
@@ -42,7 +126,7 @@ public final class SettlersAPI extends AbstractSettlersAPI {
      * @param entity entity
      * @return the settler or, null if the entity is not a settler
      */
-    public static @Nullable AbstractSettler getSettler(Entity entity) {
+    public static @Nullable AbstractSettler getSettler(@NotNull Entity entity) {
         if (!isSettler(entity))
             return null;
 
@@ -55,7 +139,7 @@ public final class SettlersAPI extends AbstractSettlersAPI {
      * @param npc npc
      * @return the settler or, null if the npc is not a settler
      */
-    public static @Nullable AbstractSettler getSettler(NPC npc) {
+    public static @Nullable AbstractSettler getSettler(@NotNull NPC npc) {
         if (!isSettler(npc))
             return null;
 
@@ -68,7 +152,7 @@ public final class SettlersAPI extends AbstractSettlersAPI {
      * @param npc npc
      * @return a settler type or null
      */
-    public static @Nullable SettlerType getSettlerType(NPC npc) {
+    public static @Nullable SettlerType getSettlerType(@NotNull NPC npc) {
         if (npc.hasTrait(CompanionTrait.class))
             return SettlerType.COMPANION;
 

@@ -1,5 +1,7 @@
 package io.github.milkdrinkers.settlers.api.settler;
 
+import io.github.milkdrinkers.settlers.api.SettlersAPI;
+import io.github.milkdrinkers.settlers.api.enums.SettlerType;
 import io.github.milkdrinkers.settlers.api.exception.SettlerSpawnException;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.event.SpawnReason;
@@ -104,6 +106,51 @@ public abstract class AbstractSettler {
      */
     public void delete() {
         npc.destroy();
+    }
+
+    /**
+     * Check if the settler is a companion.
+     *
+     * @return true if the settler is a companion, false otherwise
+     */
+    public boolean isCompanion() {
+        return SettlersAPI.isCompanion(npc);
+    }
+
+    /**
+     * Check if the settler is a guard.
+     *
+     * @return true if the settler is a guard, false otherwise
+     */
+    public boolean isGuard() {
+        return SettlersAPI.isGuard(npc);
+    }
+
+    /**
+     * Check if the settler is a nation folk.
+     *
+     * @return true if the settler is a nation folk, false otherwise
+     */
+    public boolean isNationFolk() {
+        return SettlersAPI.isNationFolk(npc);
+    }
+
+    /**
+     * Check if the settler is a town folk.
+     *
+     * @return true if the settler is a town folk, false otherwise
+     */
+    public boolean isTownFolk() {
+        return SettlersAPI.isTownFolk(npc);
+    }
+
+    /**
+     * Get what type of settler this is
+     *
+     * @return a settler type or null if unknown
+     */
+    public @Nullable SettlerType getType() {
+        return SettlersAPI.getSettlerType(getNpc());
     }
 
     /**
