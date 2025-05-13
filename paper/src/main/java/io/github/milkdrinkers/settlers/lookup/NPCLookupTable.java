@@ -2,7 +2,7 @@ package io.github.milkdrinkers.settlers.lookup;
 
 import io.github.milkdrinkers.settlers.ISettlersPlugin;
 import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
-import io.github.milkdrinkers.settlers.api.trait.*;
+import io.github.milkdrinkers.settlers.api.trait.SettlerTrait;
 import net.citizensnpcs.api.npc.NPC;
 import org.jetbrains.annotations.Nullable;
 

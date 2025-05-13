@@ -10,8 +10,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.Nullable;
 
 import static io.github.milkdrinkers.settlers.api.SettlersAPI.*;
-import static io.github.milkdrinkers.settlers.api.SettlersAPI.META_NATIONFOLK;
-import static io.github.milkdrinkers.settlers.api.SettlersAPI.META_TOWNFOLK;
 
 public class Utils {
     public static void applySettlerEntityMetadata(NPC npc, Entity entity) {
@@ -33,6 +31,7 @@ public class Utils {
 
     /**
      * Create a settler from the given NPC.
+     *
      * @param npc the NPC to create the settler from
      * @return the settler or null if the NPC is not a settler
      */

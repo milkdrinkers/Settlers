@@ -1,11 +1,9 @@
 package io.github.milkdrinkers.settlers.api.settler;
 
-import io.github.milkdrinkers.settlers.ISettlersPlugin;
 import io.github.milkdrinkers.settlers.api.SettlersAPI;
 import io.github.milkdrinkers.settlers.api.enums.SettlerType;
 import io.github.milkdrinkers.settlers.api.exception.SettlerBuildException;
 import io.github.milkdrinkers.settlers.api.trait.*;
-import io.github.milkdrinkers.settlers.registry.IRegistryHandler;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.kyori.adventure.text.Component;

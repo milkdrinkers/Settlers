@@ -28,7 +28,7 @@ import io.github.milkdrinkers.settlers.api.event.settler.lifetime.trait.SettlerT
 import io.github.milkdrinkers.settlers.api.event.settler.lifetime.trait.SettlerTraitCommandDetachEvent;
 import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
 import io.github.milkdrinkers.settlers.api.settler.SettlerBuilder;
-import io.github.milkdrinkers.settlers.api.trait.*;
+import io.github.milkdrinkers.settlers.api.trait.SettlerTrait;
 import io.github.milkdrinkers.settlers.lookup.LookupHolder;
 import io.github.milkdrinkers.settlers.utility.Utils;
 import net.citizensnpcs.NPCNeedsRespawnEvent;
@@ -39,10 +39,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.Nullable;
-
-import static io.github.milkdrinkers.settlers.api.SettlersAPI.*;
 
 /**
  * Handles calling settlers events resulting from Citizens NPC related events

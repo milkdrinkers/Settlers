@@ -65,6 +65,7 @@ public class LookupHolder implements ILookupHolder, Listener, ILifecycle {
 
     /**
      * Registers a settler for the given NPC. This will create a new settler object and add it to the lookup tables.
+     *
      * @param npc the NPC to register
      */
     @ApiStatus.Internal
@@ -86,8 +87,9 @@ public class LookupHolder implements ILookupHolder, Listener, ILifecycle {
 
     /**
      * Adds the settler, npc, and potentially entity to the lookup tables.
+     *
      * @param settler the settler to add
-     * @param npc the npc to add
+     * @param npc     the npc to add
      */
     @ApiStatus.Internal
     private void addToLookupTables(AbstractSettler settler, NPC npc) {

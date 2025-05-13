@@ -37,7 +37,7 @@ subprojects {
 
         compileOnly(rootProject.libs.paper.api)
         compileOnly(rootProject.libs.citizens.plugin) {
-            exclude ("*", "*")
+            exclude("*", "*")
         }
     }
 
