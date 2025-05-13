@@ -7,12 +7,15 @@ import io.github.milkdrinkers.settlers.command.CommandHandler;
 import io.github.milkdrinkers.settlers.listener.ListenerHandler;
 import io.github.milkdrinkers.settlers.lookup.ILookupHandler;
 import io.github.milkdrinkers.settlers.lookup.LookupHandler;
+import io.github.milkdrinkers.settlers.registry.IRegistry;
 import io.github.milkdrinkers.settlers.registry.IRegistryHandler;
 import io.github.milkdrinkers.settlers.registry.RegistryHandler;
 import io.github.milkdrinkers.settlers.trait.ITraitRegistryHandler;
 import io.github.milkdrinkers.settlers.trait.TraitRegistryHandler;
 import io.github.milkdrinkers.settlers.utility.APILifecycle;
+import net.citizensnpcs.api.npc.NPCRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.util.List;
@@ -35,6 +38,8 @@ public class Settlers extends JavaPlugin implements ISettlersPlugin {
         commandHandler,
         listenerHandler
     );
+
+    private BukkitTask saveTask;
 
     @Override
     public void onLoad() {
@@ -65,11 +70,14 @@ public class Settlers extends JavaPlugin implements ISettlersPlugin {
         for (Reloadable handler : handlers)
             handler.onEnable(getInstance());
 
-        this.getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveAllSettlers, 12000, 12000);
+        saveTask = this.getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveAllSettlers, 12000, 12000);
     }
 
     @Override
     public void onDisable() {
+        if (saveTask != null && !saveTask.isCancelled())
+            saveTask.cancel();
+
         APILifecycle.shutdown(getInstance());
 
         for (Reloadable handler : handlers.reversed())
@@ -103,19 +111,6 @@ public class Settlers extends JavaPlugin implements ISettlersPlugin {
     }
 
     private void saveAllSettlers() {
-        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.COMPANION).getDataStore().getDataStore()
-            .storeAll(SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.COMPANION).getPersistentRegistry());
-        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.GUARD).getDataStore().getDataStore()
-            .storeAll(SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.GUARD).getPersistentRegistry());
-        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.NATION).getDataStore().getDataStore()
-            .storeAll(SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.NATION).getPersistentRegistry());
-        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.TOWN).getDataStore().getDataStore()
-            .storeAll(SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.TOWN).getPersistentRegistry());
-
-
-        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.COMPANION).getDataStore().getDataStore().saveToDiskImmediate();
-        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.GUARD).getDataStore().getDataStore().saveToDiskImmediate();
-        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.NATION).getDataStore().getDataStore().saveToDiskImmediate();
-        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.TOWN).getDataStore().getDataStore().saveToDiskImmediate();
+        getRegistryHandler().getRegistry().getRegistryMap().values().forEach(IRegistry::save);
     }
 }
