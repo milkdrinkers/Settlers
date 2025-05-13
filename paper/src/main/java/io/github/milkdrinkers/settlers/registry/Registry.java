@@ -23,7 +23,7 @@ public class Registry implements IRegistry {
     public Registry(ISettlersPlugin plugin, File directory, String name) {
         dataStore = new DataStore(directory, name);
         persistentRegistry = CitizensAPI.createNamedNPCRegistry(name, dataStore.getDataStore());
-        dataStore.getDataStore().loadInto(getPersistentRegistry()); // Load stored settlers into the registry
+        dataStore.getDataStore().loadInto(persistentRegistry); // Load stored settlers into the registry
         ephemeralRegistry = CitizensAPI.createInMemoryNPCRegistry("ephemeral_%s".formatted(name));
         persistentLocationLookup = new LocationLookup(persistentRegistry);
         ephemeralLocationLookup = new LocationLookup(ephemeralRegistry);
