@@ -1,7 +1,9 @@
 package io.github.milkdrinkers.settlers.api.settler;
 
 import io.github.milkdrinkers.settlers.api.SettlersAPI;
+import io.github.milkdrinkers.settlers.api.enums.CreateReason;
 import io.github.milkdrinkers.settlers.api.enums.SettlerType;
+import io.github.milkdrinkers.settlers.api.event.settler.lifecycle.SettlerCreateEvent;
 import io.github.milkdrinkers.settlers.api.exception.SettlerBuildException;
 import io.github.milkdrinkers.settlers.api.trait.*;
 import net.citizensnpcs.api.npc.NPC;
@@ -136,6 +138,7 @@ public class SettlerBuilder {
         };
 
         SettlersAPI.getImplementation().getLookupHandler().getHolder().addToLookupTables(settler); // Add to lookup tables
+        new SettlerCreateEvent(settler, CreateReason.UNKNOWN).callEvent();
 
         return settler;
     }
@@ -148,6 +151,7 @@ public class SettlerBuilder {
         final Companion settler = new Companion(npc);
 
         SettlersAPI.getImplementation().getLookupHandler().getHolder().addToLookupTables(settler); // Add to lookup tables
+        new SettlerCreateEvent(settler, CreateReason.UNKNOWN).callEvent();
 
         return settler;
     }
@@ -160,6 +164,7 @@ public class SettlerBuilder {
         final Guard settler = new Guard(npc);
 
         SettlersAPI.getImplementation().getLookupHandler().getHolder().addToLookupTables(settler); // Add to lookup tables
+        new SettlerCreateEvent(settler, CreateReason.UNKNOWN).callEvent();
 
         return settler;
     }
@@ -172,6 +177,7 @@ public class SettlerBuilder {
         final Townfolk settler = new Townfolk(npc);
 
         SettlersAPI.getImplementation().getLookupHandler().getHolder().addToLookupTables(settler); // Add to lookup tables
+        new SettlerCreateEvent(settler, CreateReason.UNKNOWN).callEvent();
 
         return settler;
     }
@@ -184,6 +190,7 @@ public class SettlerBuilder {
         final Nationfolk settler = new Nationfolk(npc);
 
         SettlersAPI.getImplementation().getLookupHandler().getHolder().addToLookupTables(settler); // Add to lookup tables
+        new SettlerCreateEvent(settler, CreateReason.UNKNOWN).callEvent();
 
         return settler;
     }

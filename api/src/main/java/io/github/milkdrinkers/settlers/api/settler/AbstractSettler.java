@@ -1,8 +1,5 @@
 package io.github.milkdrinkers.settlers.api.settler;
 
-import io.github.milkdrinkers.settlers.api.SettlersAPI;
-import io.github.milkdrinkers.settlers.api.enums.CreateReason;
-import io.github.milkdrinkers.settlers.api.event.settler.lifecycle.SettlerCreateEvent;
 import io.github.milkdrinkers.settlers.api.exception.SettlerSpawnException;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.event.SpawnReason;
@@ -16,8 +13,6 @@ public abstract class AbstractSettler {
 
     protected AbstractSettler(NPC npc) {
         this.npc = npc;
-        new SettlerCreateEvent(this, CreateReason.UNKNOWN).callEvent();
-        SettlersAPI.getImplementation().getLookupHandler().getHolder().getNpcLookupTable().add(this, npc);
     }
 
     public NPC getNpc() {
