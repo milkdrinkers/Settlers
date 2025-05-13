@@ -6,6 +6,7 @@ import net.citizensnpcs.api.event.CitizensEnableEvent;
 import net.citizensnpcs.api.event.CitizensPreReloadEvent;
 import net.citizensnpcs.api.event.CitizensReloadEvent;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginDisableEvent;
 
@@ -19,7 +20,7 @@ public class CitizensLifecycleListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
     @SuppressWarnings("unused")
     void onLoad(CitizensEnableEvent e) {
         APILifecycle.startup(plugin);
@@ -30,7 +31,7 @@ public class CitizensLifecycleListener implements Listener {
      *
      * @param e event
      */
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     @SuppressWarnings("unused")
     void onUnload(PluginDisableEvent e) {
         if (!e.getPlugin().getName().equalsIgnoreCase("Citizens"))
@@ -45,7 +46,7 @@ public class CitizensLifecycleListener implements Listener {
      *
      * @param e event
      */
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST, ignoreCancelled = true)
     @SuppressWarnings("unused")
     void onPreReload(CitizensPreReloadEvent e) {
         APILifecycle.shutdown(plugin);
@@ -57,7 +58,7 @@ public class CitizensLifecycleListener implements Listener {
      *
      * @param e event
      */
-    @EventHandler
+    @EventHandler (priority = EventPriority.LOWEST, ignoreCancelled = true)
     @SuppressWarnings("unused")
     void onReload(CitizensReloadEvent e) {
         APILifecycle.startup(plugin);
