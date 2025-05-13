@@ -8,6 +8,8 @@ import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.event.SpawnReason;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractSettler {
     private final NPC npc;
@@ -20,6 +22,16 @@ public abstract class AbstractSettler {
 
     public NPC getNpc() {
         return npc;
+    }
+
+    /**
+     * Returns the entity of the settler if the settler is spawned.
+     * @return {@link Entity} or null
+     * @implNote Use {@link #isSpawned()} to check if the settler is spawned.
+     * @see #isSpawned()
+     */
+    public @Nullable Entity getEntity() {
+        return npc.getEntity();
     }
 
     /**
@@ -95,5 +107,13 @@ public abstract class AbstractSettler {
      */
     public void delete() {
         npc.destroy();
+    }
+
+    /**
+     * Returns the {@link SettlerBuilder} used for creating new Settlers.
+     * @return {@link SettlerBuilder}
+     */
+    public static SettlerBuilder builder() {
+        return new SettlerBuilder();
     }
 }

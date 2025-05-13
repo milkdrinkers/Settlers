@@ -12,6 +12,11 @@ import org.jetbrains.annotations.Nullable;
 import static io.github.milkdrinkers.settlers.api.SettlersAPI.*;
 
 public class Utils {
+    /**
+     * Apply all entity metadata for the given settler NPC.
+     * @param npc the settler NPC
+     * @param entity the entity to apply metadata to
+     */
     public static void applySettlerEntityMetadata(NPC npc, Entity entity) {
         if (!npc.hasTrait(SettlerTrait.class))
             return;
