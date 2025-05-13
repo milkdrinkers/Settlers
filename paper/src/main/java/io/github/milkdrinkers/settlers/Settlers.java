@@ -2,6 +2,7 @@ package io.github.milkdrinkers.settlers;
 
 import io.github.milkdrinkers.colorparser.ColorParser;
 import io.github.milkdrinkers.settlers.api.SettlersAPI;
+import io.github.milkdrinkers.settlers.api.enums.SettlerType;
 import io.github.milkdrinkers.settlers.command.CommandHandler;
 import io.github.milkdrinkers.settlers.listener.ListenerHandler;
 import io.github.milkdrinkers.settlers.lookup.ILookupHandler;
@@ -63,6 +64,8 @@ public class Settlers extends JavaPlugin implements ISettlersPlugin {
 
         for (Reloadable handler : handlers)
             handler.onEnable(getInstance());
+
+        this.getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveAllSettlers, 12000, 12000);
     }
 
     @Override
@@ -97,5 +100,22 @@ public class Settlers extends JavaPlugin implements ISettlersPlugin {
     @Override
     public void setAPIState(boolean enabled) {
         SettlersAPI.setEnabled(enabled);
+    }
+
+    private void saveAllSettlers() {
+        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.COMPANION).getDataStore().getDataStore()
+            .storeAll(SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.COMPANION).getPersistentRegistry());
+        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.GUARD).getDataStore().getDataStore()
+            .storeAll(SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.GUARD).getPersistentRegistry());
+        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.NATION).getDataStore().getDataStore()
+            .storeAll(SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.NATION).getPersistentRegistry());
+        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.TOWN).getDataStore().getDataStore()
+            .storeAll(SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.TOWN).getPersistentRegistry());
+
+
+        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.COMPANION).getDataStore().getDataStore().saveToDiskImmediate();
+        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.GUARD).getDataStore().getDataStore().saveToDiskImmediate();
+        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.NATION).getDataStore().getDataStore().saveToDiskImmediate();
+        SettlersAPI.getSettlersRegistries().getRegistry(SettlerType.TOWN).getDataStore().getDataStore().saveToDiskImmediate();
     }
 }
