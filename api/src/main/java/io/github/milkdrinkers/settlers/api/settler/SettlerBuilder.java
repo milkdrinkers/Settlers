@@ -8,6 +8,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
@@ -18,32 +19,32 @@ import static org.bukkit.entity.EntityType.PLAYER;
  * A builder for creating new settlers.
  */
 public class SettlerBuilder {
-    private NPC npc;
-    private SettlerType type;
+    private NPC npc = null;
+    private SettlerType type = null;
 
     // Creation fields
-    private String name;
-    private Location location;
-    private UUID uuid;
-    private Integer id;
+    private String name = null;
+    private Location location = null;
+    private UUID uuid = null;
+    private Integer id = null;
     private boolean ephemeral = false;
 
-    public SettlerBuilder setNpc(NPC npc) {
+    public SettlerBuilder setNpc(@NotNull NPC npc) {
         this.npc = npc;
         return this;
     }
 
-    public SettlerBuilder setName(String name) {
+    public SettlerBuilder setName(@NotNull String name) {
         this.name = name;
         return this;
     }
 
-    public SettlerBuilder setType(SettlerType type) {
+    public SettlerBuilder setType(@NotNull SettlerType type) {
         this.type = type;
         return this;
     }
 
-    public SettlerBuilder setUuid(UUID uuid) {
+    public SettlerBuilder setUuid(@NotNull UUID uuid) {
         this.uuid = uuid;
         return this;
     }
@@ -53,7 +54,7 @@ public class SettlerBuilder {
         return this;
     }
 
-    public SettlerBuilder setLocation(Location location) {
+    public SettlerBuilder setLocation(@NotNull Location location) {
         this.location = location;
         return this;
     }
@@ -127,12 +128,16 @@ public class SettlerBuilder {
     public AbstractSettler create() throws SettlerBuildException {
         checkFields();
 
-        return switch (type) {
-            case COMPANION -> createCompanion();
-            case GUARD -> createGuard();
-            case NATION -> createNationfolk();
-            case TOWN -> createTownfolk();
+        final AbstractSettler settler = switch (type) {
+            case COMPANION -> new Companion(npc);
+            case GUARD -> new Guard(npc);
+            case NATION -> new Nationfolk(npc);
+            case TOWN -> new Townfolk(npc);
         };
+
+        SettlersAPI.getImplementation().getLookupHandler().getHolder().addToLookupTables(settler); // Add to lookup tables
+
+        return settler;
     }
 
     public Companion createCompanion() throws SettlerBuildException {
@@ -140,7 +145,11 @@ public class SettlerBuilder {
         checkFields();
         register(type);
 
-        return new Companion(npc);
+        final Companion settler = new Companion(npc);
+
+        SettlersAPI.getImplementation().getLookupHandler().getHolder().addToLookupTables(settler); // Add to lookup tables
+
+        return settler;
     }
 
     public Guard createGuard() throws SettlerBuildException {
@@ -148,7 +157,11 @@ public class SettlerBuilder {
         checkFields();
         register(type);
 
-        return new Guard(npc);
+        final Guard settler = new Guard(npc);
+
+        SettlersAPI.getImplementation().getLookupHandler().getHolder().addToLookupTables(settler); // Add to lookup tables
+
+        return settler;
     }
 
     public Townfolk createTownfolk() throws SettlerBuildException {
@@ -156,7 +169,11 @@ public class SettlerBuilder {
         checkFields();
         register(type);
 
-        return new Townfolk(npc);
+        final Townfolk settler = new Townfolk(npc);
+
+        SettlersAPI.getImplementation().getLookupHandler().getHolder().addToLookupTables(settler); // Add to lookup tables
+
+        return settler;
     }
 
     public Nationfolk createNationfolk() throws SettlerBuildException {
@@ -164,6 +181,10 @@ public class SettlerBuilder {
         checkFields();
         register(type);
 
-        return new Nationfolk(npc);
+        final Nationfolk settler = new Nationfolk(npc);
+
+        SettlersAPI.getImplementation().getLookupHandler().getHolder().addToLookupTables(settler); // Add to lookup tables
+
+        return settler;
     }
 }

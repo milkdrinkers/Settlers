@@ -9,6 +9,7 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A holder for the lookup tables used by Settlers. Allows easily looking up entities and NPC's by their associated settler object or vice-versa.
@@ -82,20 +83,7 @@ public class LookupHolder implements ILookupHolder, Listener, ILifecycle {
             Utils.applySettlerEntityMetadata(npc, entity);
         }
 
-        addToLookupTables(settler, npc);
-    }
-
-    /**
-     * Adds the settler, npc, and potentially entity to the lookup tables.
-     *
-     * @param settler the settler to add
-     * @param npc     the npc to add
-     */
-    @ApiStatus.Internal
-    private void addToLookupTables(AbstractSettler settler, NPC npc) {
-        getNpcLookupTable().add(settler, npc);
-        if (settler.isSpawned())
-            getEntityLookupTable().add(settler, npc.getEntity());
+        addToLookupTables(settler);
     }
 
     @Override
