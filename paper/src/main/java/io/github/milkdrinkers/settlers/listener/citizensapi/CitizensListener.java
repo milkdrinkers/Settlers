@@ -298,43 +298,28 @@ public class CitizensListener implements Listener {
 
         e.getNPC().getEntity().setMetadata(META_SETTLER, new FixedMetadataValue(SettlersAPI.getImplementation(), META_SETTLER));
 
+        SettlerBuilder builder = new SettlerBuilder().setNpc(e.getNPC());
+        @Nullable AbstractSettler settler = null;
+
         if (e.getNPC().hasTrait(CompanionTrait.class)) {
             e.getNPC().getEntity().setMetadata(META_COMPANION, new FixedMetadataValue(SettlersAPI.getImplementation(), META_COMPANION));
-
-            boolean settlerExists = Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().lookupKey(e.getNPC()) != null;
-            if (!settlerExists) {
-                final AbstractSettler settler = new SettlerBuilder()
-                    .setNpc(e.getNPC())
-                    .createCompanion();
-
-                Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().add(settler, e.getNPC());
-                if (settler.isSpawned())
-                    Settlers.getInstance().getLookupHandler().getHolder().getEntityLookupTable().add(settler, e.getNPC().getEntity());
-            }
+            settler = builder.createCompanion();
         } else if (e.getNPC().hasTrait(GuardTrait.class)) {
             e.getNPC().getEntity().setMetadata(META_GUARD, new FixedMetadataValue(SettlersAPI.getImplementation(), META_GUARD));
-            final AbstractSettler settler = new SettlerBuilder()
-                .setNpc(e.getNPC())
-                .createGuard();
-
-            Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().add(settler, e.getNPC());
-            if (settler.isSpawned())
-                Settlers.getInstance().getLookupHandler().getHolder().getEntityLookupTable().add(settler, e.getNPC().getEntity());
+            settler = builder.createGuard();
         } else if (e.getNPC().hasTrait(NationFolkTrait.class)) {
             e.getNPC().getEntity().setMetadata(META_NATIONFOLK, new FixedMetadataValue(SettlersAPI.getImplementation(), META_NATIONFOLK));
-            final AbstractSettler settler = new SettlerBuilder()
-                .setNpc(e.getNPC())
-                .createNationfolk();
-
-            Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().add(settler, e.getNPC());
-            if (settler.isSpawned())
-                Settlers.getInstance().getLookupHandler().getHolder().getEntityLookupTable().add(settler, e.getNPC().getEntity());
+            settler = builder.createNationfolk();
         } else if (e.getNPC().hasTrait(TownFolkTrait.class)) {
             e.getNPC().getEntity().setMetadata(META_TOWNFOLK, new FixedMetadataValue(SettlersAPI.getImplementation(), META_TOWNFOLK));
-            final AbstractSettler settler = new SettlerBuilder()
-                .setNpc(e.getNPC())
-                .createTownfolk();
+            settler = builder.createTownfolk();
+        }
 
+        if (settler == null) throw new IllegalStateException("Settler was null.");
+
+        boolean settlerExists = Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().hasValue(e.getNPC());
+
+        if (!settlerExists) {
             Settlers.getInstance().getLookupHandler().getHolder().getNpcLookupTable().add(settler, e.getNPC());
             if (settler.isSpawned())
                 Settlers.getInstance().getLookupHandler().getHolder().getEntityLookupTable().add(settler, e.getNPC().getEntity());
