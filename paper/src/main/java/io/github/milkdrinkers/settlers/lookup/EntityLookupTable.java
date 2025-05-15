@@ -10,15 +10,18 @@ import static io.github.milkdrinkers.settlers.api.SettlersAPI.*;
 
 public class EntityLookupTable extends LookupTable<AbstractSettler, Entity> {
     private final ISettlersPlugin plugin;
-    private final LookupHolder holder;
+    private LookupHolder holder;
 
     EntityLookupTable(ISettlersPlugin plugin) {
         this.plugin = plugin;
-        this.holder = (LookupHolder) plugin.getLookupHandler().getHolder();
     }
 
     @Override
     public @Nullable AbstractSettler lookupKey(Entity entity) {
+        if (holder == null) {
+            holder = (LookupHolder) plugin.getLookupHandler().getHolder();
+        }
+
         // Create a missing Settler object for this NPC (Fix for Settlers not being added to lookup tables before Citizens triggers Settler events)
         if (entity.hasMetadata(META_SETTLER) && !super.hasValue(entity)) {
             final NPC npc = getNPC(entity);
@@ -32,6 +35,10 @@ public class EntityLookupTable extends LookupTable<AbstractSettler, Entity> {
 
     @Override
     public boolean hasValue(Entity entity) {
+        if (holder == null) {
+            holder = (LookupHolder) plugin.getLookupHandler().getHolder();
+        }
+
         final boolean hasValue = super.hasValue(entity);
 
         // Create a missing Settler object for this NPC (Fix for Settlers not being added to lookup tables before Citizens triggers Settler events)
