@@ -9,7 +9,6 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A holder for the lookup tables used by Settlers. Allows easily looking up entities and NPC's by their associated settler object or vice-versa.
@@ -22,8 +21,8 @@ public class LookupHolder implements ILookupHolder, Listener, ILifecycle {
 
     protected LookupHolder(ISettlersPlugin plugin) {
         this.plugin = plugin;
-        this.npcILookupTable = new NPCLookupTable(plugin);
-        this.entityILookupTable = new EntityLookupTable(plugin);
+        this.npcILookupTable = new NPCLookupTable(plugin, this);
+        this.entityILookupTable = new EntityLookupTable(plugin, this);
     }
 
     private final ILookupTable<AbstractSettler, NPC> npcILookupTable;
