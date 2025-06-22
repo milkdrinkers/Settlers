@@ -12,7 +12,7 @@ configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref 
 colorparser = "io.github.milkdrinkers:colorparser:3.0.1"
 command-api = "dev.jorel:commandapi-bukkit-shade:10.0.1"
 bstats-bukkit = "org.bstats:bstats-bukkit:3.1.0"
-citizens-plugin = "net.citizensnpcs:citizens-main:2.0.37-SNAPSHOT"
+citizens-plugin = "net.citizensnpcs:citizens-main:2.0.39-SNAPSHOT"
 
 [plugins]
 shadow = "com.gradleup.shadow:9.0.0-beta9"
