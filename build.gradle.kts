@@ -3,6 +3,7 @@ import java.time.Instant
 plugins {
     `java-library`
     alias(libs.plugins.shadow) apply false
+    alias(libs.plugins.publisher) apply false
 
     eclipse
     idea
@@ -43,6 +44,7 @@ subprojects {
 
     java {
         toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+        withJavadocJar()
     }
 
     tasks {
