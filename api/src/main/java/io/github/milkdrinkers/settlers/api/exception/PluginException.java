@@ -3,7 +3,11 @@ package io.github.milkdrinkers.settlers.api.exception;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 
+import java.io.Serial;
+
 public class PluginException extends RuntimeException {
+    private static final @Serial long serialVersionUID = 1L;
+
     private static final PlainTextComponentSerializer componentSerializer = PlainTextComponentSerializer.plainText();
 
     private static PlainTextComponentSerializer getComponentSerializer() {

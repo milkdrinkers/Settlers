@@ -2,7 +2,11 @@ package io.github.milkdrinkers.settlers.api.exception;
 
 import net.kyori.adventure.text.Component;
 
+import java.io.Serial;
+
 public class SettlersLoadException extends PluginException {
+    private static final @Serial long serialVersionUID = 1L;
+
     public SettlersLoadException() {
     }
 
