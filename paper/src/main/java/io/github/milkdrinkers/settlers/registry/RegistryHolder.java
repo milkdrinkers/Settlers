@@ -110,7 +110,7 @@ public class RegistryHolder implements IRegistryHolder, Listener, Reloadable, IL
             case NATION -> REGISTRY_REF_NATION;
             case TOWN -> REGISTRY_REF_TOWN;
         };
-        
+
         if (reg == null) {
             return switch (type) {
                 case COMPANION -> REGISTRY_REF_COMPANION = this.getRegistryMap().get(type.getName());
