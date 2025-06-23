@@ -7,12 +7,10 @@ import net.citizensnpcs.api.npc.NPC;
 import org.jetbrains.annotations.Nullable;
 
 public class NPCLookupTable extends LookupTable<AbstractSettler, NPC> {
-    private final ISettlersPlugin plugin;
-    private final LookupHolder holder;
+    private final ILookupHolder holder;
 
-    NPCLookupTable(ISettlersPlugin plugin, LookupHolder holder) {
-        this.plugin = plugin;
-        this.holder = holder;
+    NPCLookupTable(ISettlersPlugin plugin) {
+        this.holder = plugin.getLookupHandler().getHolder();
     }
 
     @Override

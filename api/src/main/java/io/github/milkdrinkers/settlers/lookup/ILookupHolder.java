@@ -36,4 +36,12 @@ public interface ILookupHolder extends Listener {
         if (settler.isSpawned())
             getEntityLookupTable().add(settler, settler.getEntity());
     }
+
+    /**
+     * Registers a settler for the given NPC. This will create a new settler object and add it to the lookup tables.
+     *
+     * @param npc the NPC to register
+     */
+    @ApiStatus.Internal
+    void registerSettler(NPC npc);
 }

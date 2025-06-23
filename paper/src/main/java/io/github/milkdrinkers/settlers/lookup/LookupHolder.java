@@ -21,8 +21,8 @@ public class LookupHolder implements ILookupHolder, Listener, ILifecycle {
 
     protected LookupHolder(ISettlersPlugin plugin) {
         this.plugin = plugin;
-        this.npcILookupTable = new NPCLookupTable(plugin, this);
-        this.entityILookupTable = new EntityLookupTable(plugin, this);
+        this.npcILookupTable = new NPCLookupTable(plugin);
+        this.entityILookupTable = new EntityLookupTable(plugin);
     }
 
     private final ILookupTable<AbstractSettler, NPC> npcILookupTable;
@@ -68,6 +68,7 @@ public class LookupHolder implements ILookupHolder, Listener, ILifecycle {
      *
      * @param npc the NPC to register
      */
+    @Override
     @ApiStatus.Internal
     public void registerSettler(NPC npc) {
         final AbstractSettler settler = Utils.createSettler(npc);

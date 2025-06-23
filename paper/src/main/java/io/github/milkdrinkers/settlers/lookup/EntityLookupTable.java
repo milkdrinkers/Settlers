@@ -10,11 +10,11 @@ import static io.github.milkdrinkers.settlers.api.SettlersAPI.*;
 
 public class EntityLookupTable extends LookupTable<AbstractSettler, Entity> {
     private final ISettlersPlugin plugin;
-    private final LookupHolder holder;
+    private final ILookupHolder holder;
 
-    EntityLookupTable(ISettlersPlugin plugin, LookupHolder holder) {
+    EntityLookupTable(ISettlersPlugin plugin) {
         this.plugin = plugin;
-        this.holder = holder;
+        this.holder = plugin.getLookupHandler().getHolder();
     }
 
     @Override
