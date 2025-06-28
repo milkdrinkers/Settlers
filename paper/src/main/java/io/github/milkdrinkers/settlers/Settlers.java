@@ -75,6 +75,8 @@ public class Settlers extends JavaPlugin implements ISettlersPlugin {
     public void onDisable() {
         if (saveTask != null && !saveTask.isCancelled())
             saveTask.cancel();
+        
+        saveAllSettlers();
 
         APILifecycle.shutdown(getInstance());
 
