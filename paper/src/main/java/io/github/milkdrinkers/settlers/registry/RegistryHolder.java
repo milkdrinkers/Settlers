@@ -22,16 +22,10 @@ import static io.github.milkdrinkers.settlers.ISettlersPlugin.DIR_DATA;
 /**
  * A wrapper class holding and managing life of all {@link IRegistry}'s.
  */
-public class RegistryHolder implements IRegistryHolder, Listener, Reloadable, ILifecycle {
+public final class RegistryHolder implements IRegistryHolder, Listener, Reloadable, ILifecycle {
     // Holds the AbstractSettler Registries which contain NPC Registries
     private final ISettlersPlugin plugin;
     private final Map<String, IRegistry> registryMap = new HashMap<>();
-
-    // References
-    private IRegistry REGISTRY_REF_COMPANION;
-    private IRegistry REGISTRY_REF_GUARD;
-    private IRegistry REGISTRY_REF_NATION;
-    private IRegistry REGISTRY_REF_TOWN;
 
     /**
      * Instantiates a new settlers registry for {@link NPCRegistry}'s
@@ -41,6 +35,7 @@ public class RegistryHolder implements IRegistryHolder, Listener, Reloadable, IL
      */
     @ApiStatus.Internal
     protected RegistryHolder(ISettlersPlugin plugin) {
+        Objects.requireNonNull(plugin, "plugin instance is null in registry holder");
         this.plugin = plugin;
     }
 
@@ -76,12 +71,6 @@ public class RegistryHolder implements IRegistryHolder, Listener, Reloadable, IL
      */
     @Override
     public void onUnload(ISettlersPlugin plugin) {
-        // Clear references to jvm can collect these objects
-        REGISTRY_REF_COMPANION = null;
-        REGISTRY_REF_GUARD = null;
-        REGISTRY_REF_NATION = null;
-        REGISTRY_REF_TOWN = null;
-
         // Save data
         for (IRegistry registry : getRegistryMap().values()) {
             registry.save();
@@ -104,79 +93,47 @@ public class RegistryHolder implements IRegistryHolder, Listener, Reloadable, IL
 
     @Override
     public IRegistry getRegistry(SettlerType type) {
-        final IRegistry reg = switch (type) {
-            case COMPANION -> REGISTRY_REF_COMPANION;
-            case GUARD -> REGISTRY_REF_GUARD;
-            case NATION -> REGISTRY_REF_NATION;
-            case TOWN -> REGISTRY_REF_TOWN;
-        };
-
-        if (reg == null) {
-            return switch (type) {
-                case COMPANION -> REGISTRY_REF_COMPANION = this.getRegistryMap().get(type.getName());
-                case GUARD -> REGISTRY_REF_GUARD = this.getRegistryMap().get(type.getName());
-                case NATION -> REGISTRY_REF_NATION = this.getRegistryMap().get(type.getName());
-                case TOWN -> REGISTRY_REF_TOWN = this.getRegistryMap().get(type.getName());
-            };
-        }
-
-        return reg;
+        return getRegistryMap().get(type.getName());
     }
 
     @Override
     public NPCRegistry getRegistryCompanion() {
-        if (REGISTRY_REF_COMPANION == null)
-            REGISTRY_REF_COMPANION = this.getRegistryMap().get(SettlerType.COMPANION.getName());
-        return REGISTRY_REF_COMPANION.getPersistentRegistry();
+        return getRegistryMap().get(SettlerType.COMPANION.getName()).getPersistentRegistry();
     }
 
     @Override
     public NPCRegistry getRegistryGuard() {
-        if (REGISTRY_REF_GUARD == null)
-            REGISTRY_REF_GUARD = this.getRegistryMap().get(SettlerType.GUARD.getName());
-        return REGISTRY_REF_GUARD.getPersistentRegistry();
+        return getRegistryMap().get(SettlerType.GUARD.getName()).getPersistentRegistry();
     }
 
     @Override
     public NPCRegistry getRegistryNation() {
-        if (REGISTRY_REF_NATION == null)
-            REGISTRY_REF_NATION = this.getRegistryMap().get(SettlerType.NATION.getName());
-        return REGISTRY_REF_NATION.getPersistentRegistry();
+        return getRegistryMap().get(SettlerType.NATION.getName()).getPersistentRegistry();
     }
 
     @Override
     public NPCRegistry getRegistryTown() {
-        if (REGISTRY_REF_TOWN == null)
-            REGISTRY_REF_TOWN = this.getRegistryMap().get(SettlerType.TOWN.getName());
-        return REGISTRY_REF_TOWN.getPersistentRegistry();
+        return getRegistryMap().get(SettlerType.TOWN.getName()).getPersistentRegistry();
     }
 
     @Override
     public NPCRegistry getRegistryEphemeralCompanion() {
-        if (REGISTRY_REF_COMPANION == null)
-            REGISTRY_REF_COMPANION = this.getRegistryMap().get(SettlerType.COMPANION.getName());
-        return REGISTRY_REF_COMPANION.getEphemeralRegistry();
+        return getRegistryMap().get(SettlerType.COMPANION.getName()).getEphemeralRegistry();
     }
 
     @Override
     public NPCRegistry getRegistryEphemeralGuard() {
-        if (REGISTRY_REF_GUARD == null)
-            REGISTRY_REF_GUARD = this.getRegistryMap().get(SettlerType.GUARD.getName());
-        return REGISTRY_REF_GUARD.getEphemeralRegistry();
+        return getRegistryMap().get(SettlerType.GUARD.getName()).getEphemeralRegistry();
     }
 
     @Override
     public NPCRegistry getRegistryEphemeralNation() {
-        if (REGISTRY_REF_NATION == null)
-            REGISTRY_REF_NATION = this.getRegistryMap().get(SettlerType.NATION.getName());
-        return REGISTRY_REF_NATION.getEphemeralRegistry();
+        return getRegistryMap().get(SettlerType.NATION.getName()).getEphemeralRegistry();
     }
 
     @Override
     public NPCRegistry getRegistryEphemeralTown() {
-        if (REGISTRY_REF_TOWN == null)
-            REGISTRY_REF_TOWN = this.getRegistryMap().get(SettlerType.TOWN.getName());
-        return REGISTRY_REF_TOWN.getEphemeralRegistry();
+        return getRegistryMap().get(SettlerType.TOWN.getName()).getEphemeralRegistry();
     }
 
     @Override

@@ -2,7 +2,6 @@ package io.github.milkdrinkers.settlers;
 
 import io.github.milkdrinkers.colorparser.ColorParser;
 import io.github.milkdrinkers.settlers.api.SettlersAPI;
-import io.github.milkdrinkers.settlers.api.enums.SettlerType;
 import io.github.milkdrinkers.settlers.command.CommandHandler;
 import io.github.milkdrinkers.settlers.listener.ListenerHandler;
 import io.github.milkdrinkers.settlers.lookup.ILookupHandler;
@@ -13,7 +12,6 @@ import io.github.milkdrinkers.settlers.registry.RegistryHandler;
 import io.github.milkdrinkers.settlers.trait.ITraitRegistryHandler;
 import io.github.milkdrinkers.settlers.trait.TraitRegistryHandler;
 import io.github.milkdrinkers.settlers.utility.APILifecycle;
-import net.citizensnpcs.api.npc.NPCRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 

@@ -4,21 +4,27 @@ import io.github.milkdrinkers.settlers.ISettlersPlugin;
 import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 import static io.github.milkdrinkers.settlers.api.SettlersAPI.*;
 
-public class EntityLookupTable extends LookupTable<AbstractSettler, Entity> {
+public final class EntityLookupTable extends LookupTable<AbstractSettler, Entity> {
     private final ISettlersPlugin plugin;
     private final ILookupHolder holder;
 
-    EntityLookupTable(ISettlersPlugin plugin) {
+    EntityLookupTable(ISettlersPlugin plugin, ILookupHolder holder) {
+        Objects.requireNonNull(plugin, "plugin instance is null in lookup table");
+        Objects.requireNonNull(holder, "holder instance is null in lookup table");
         this.plugin = plugin;
-        this.holder = plugin.getLookupHandler().getHolder();
+        this.holder = holder;
     }
 
     @Override
-    public @Nullable AbstractSettler lookupKey(Entity entity) {
+    public @Nullable AbstractSettler lookupKey(@NotNull Entity entity) {
+        Objects.requireNonNull(entity, "entity is null in lookup table");
         // Create a missing Settler object for this NPC (Fix for Settlers not being added to lookup tables before Citizens triggers Settler events)
         if (entity.hasMetadata(META_SETTLER) && !super.hasValue(entity)) {
             final NPC npc = getNPC(entity);
@@ -31,7 +37,8 @@ public class EntityLookupTable extends LookupTable<AbstractSettler, Entity> {
     }
 
     @Override
-    public boolean hasValue(Entity entity) {
+    public boolean hasValue(@NotNull Entity entity) {
+        Objects.requireNonNull(entity, "entity is null in lookup table");
         final boolean hasValue = super.hasValue(entity);
 
         // Create a missing Settler object for this NPC (Fix for Settlers not being added to lookup tables before Citizens triggers Settler events)

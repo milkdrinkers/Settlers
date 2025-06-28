@@ -1,13 +1,15 @@
 package io.github.milkdrinkers.settlers.lookup;
 
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.Map;
 
-public class LookupTable<K, V> implements ILookupTable<K, V> {
-    private final HashMap<K, V> keyMap = new HashMap<>();
-    private final HashMap<V, K> valueMap = new HashMap<>();
+public abstract class LookupTable<K, V> implements ILookupTable<K, V> {
+    private final Map<K, V> keyMap = new HashMap<>();
+    private final Map<V, K> valueMap = new HashMap<>();
 
     @ApiStatus.Internal
     public LookupTable() {
@@ -15,32 +17,32 @@ public class LookupTable<K, V> implements ILookupTable<K, V> {
 
     @ApiStatus.Internal
     @Override
-    public void add(K object1, V object2) {
+    public void add(@NotNull K object1, @NotNull V object2) {
         keyMap.put(object1, object2);
         valueMap.put(object2, object1);
     }
 
     @ApiStatus.Internal
     @Override
-    public void removeByKey(K object1) {
+    public void removeByKey(@NotNull K object1) {
         valueMap.remove(lookupValue(object1));
         keyMap.remove(object1);
     }
 
     @ApiStatus.Internal
     @Override
-    public void removeByValue(V object2) {
+    public void removeByValue(@NotNull V object2) {
         keyMap.remove(lookupKey(object2));
         valueMap.remove(object2);
     }
 
     @Override
-    public @Nullable K lookupKey(V object2) {
+    public @Nullable K lookupKey(@NotNull V object2) {
         return valueMap.get(object2);
     }
 
     @Override
-    public @Nullable V lookupValue(K object1) {
+    public @Nullable V lookupValue(@NotNull K object1) {
         return keyMap.get(object1);
     }
 
@@ -51,11 +53,11 @@ public class LookupTable<K, V> implements ILookupTable<K, V> {
         valueMap.clear();
     }
 
-    public boolean hasKey(K object1) {
+    public boolean hasKey(@NotNull K object1) {
         return keyMap.containsKey(object1);
     }
 
-    public boolean hasValue(V object2) {
+    public boolean hasValue(@NotNull V object2) {
         return valueMap.containsKey(object2);
     }
 }

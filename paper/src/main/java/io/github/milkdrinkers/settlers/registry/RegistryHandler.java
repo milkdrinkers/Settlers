@@ -2,11 +2,14 @@ package io.github.milkdrinkers.settlers.registry;
 
 import io.github.milkdrinkers.settlers.ISettlersPlugin;
 import net.citizensnpcs.api.npc.NPCRegistry;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * A handler for managing {@link NPCRegistry} access {@literal &} life-cycle.
  */
-public class RegistryHandler implements IRegistryHandler {
+public final class RegistryHandler implements IRegistryHandler {
     private RegistryHolder registry;
 
     @Override
@@ -27,7 +30,8 @@ public class RegistryHandler implements IRegistryHandler {
     }
 
     @Override
-    public RegistryHolder getRegistry() {
+    public @NotNull RegistryHolder getRegistry() {
+        Objects.requireNonNull(registry, "registry holder instance is null");
         return registry;
     }
 }

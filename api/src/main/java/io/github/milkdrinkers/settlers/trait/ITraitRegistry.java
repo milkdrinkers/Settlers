@@ -15,7 +15,7 @@ public interface ITraitRegistry extends Iterable<TraitInfo> {
      *
      * @return list of traits
      */
-    List<TraitInfo> getTraits();
+    @NotNull List<TraitInfo> getTraits();
 
     /**
      * Adds a trait that will be registered on startup through Settlers
@@ -38,5 +38,5 @@ public interface ITraitRegistry extends Iterable<TraitInfo> {
     void forEach(Consumer<? super TraitInfo> action);
 
     @Override
-    Spliterator<TraitInfo> spliterator();
+    @NotNull Spliterator<TraitInfo> spliterator();
 }

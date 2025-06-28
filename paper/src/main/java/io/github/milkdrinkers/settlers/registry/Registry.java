@@ -5,22 +5,27 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.LocationLookup;
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPCRegistry;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * A wrapper class for a collection of Citizens {@link NPCRegistry}'s.
  * Each Registry contains one registry which persists in a .yml save file of the registry name,
  * and one ephemeral (temporary/in-memory) registry for ephemeral settlers.
  */
-public class Registry implements IRegistry {
+public final class Registry implements IRegistry {
     final IDataStore dataStore;
     final NPCRegistry persistentRegistry;
     final NPCRegistry ephemeralRegistry;
     final LocationLookup persistentLocationLookup;
     final LocationLookup ephemeralLocationLookup;
 
-    public Registry(ISettlersPlugin plugin, File directory, String name) {
+    public Registry(@NotNull ISettlersPlugin plugin, @NotNull File directory, @NotNull String name) {
+        Objects.requireNonNull(plugin, "plugin cannot be null when creating settlers registry");
+        Objects.requireNonNull(directory, "directory cannot be null when creating settlers registry");
+        Objects.requireNonNull(name, "name cannot be null when creating settlers registry");
         dataStore = new DataStore(directory, name);
         persistentRegistry = CitizensAPI.createNamedNPCRegistry(name, dataStore.getDataStore());
         dataStore.getDataStore().loadInto(persistentRegistry); // Load stored settlers into the registry
@@ -32,17 +37,17 @@ public class Registry implements IRegistry {
     }
 
     @Override
-    public NPCRegistry getPersistentRegistry() {
+    public @NotNull NPCRegistry getPersistentRegistry() {
         return persistentRegistry;
     }
 
     @Override
-    public NPCRegistry getEphemeralRegistry() {
+    public @NotNull NPCRegistry getEphemeralRegistry() {
         return ephemeralRegistry;
     }
 
     @Override
-    public IDataStore getDataStore() {
+    public @NotNull IDataStore getDataStore() {
         return dataStore;
     }
 

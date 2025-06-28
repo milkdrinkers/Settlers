@@ -4,13 +4,15 @@ import io.github.milkdrinkers.settlers.ISettlersPlugin;
 import io.github.milkdrinkers.settlers.api.trait.*;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.trait.TraitInfo;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A handler for managing {@link TraitRegistry} access {@literal &} life-cycle.
  */
-public class TraitRegistryHandler implements ITraitRegistryHandler {
+public final class TraitRegistryHandler implements ITraitRegistryHandler {
     private final TraitRegistry registry = new TraitRegistry();
 
     @Override
@@ -41,7 +43,8 @@ public class TraitRegistryHandler implements ITraitRegistryHandler {
     }
 
     @Override
-    public TraitRegistry getRegistry() {
+    public @NotNull TraitRegistry getRegistry() {
+        Objects.requireNonNull(registry, "trait registry instance is null");
         return registry;
     }
 }

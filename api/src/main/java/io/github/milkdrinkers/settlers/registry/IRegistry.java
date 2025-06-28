@@ -2,13 +2,14 @@ package io.github.milkdrinkers.settlers.registry;
 
 import net.citizensnpcs.api.event.DespawnReason;
 import net.citizensnpcs.api.npc.NPCRegistry;
+import org.jetbrains.annotations.NotNull;
 
 public interface IRegistry {
-    NPCRegistry getPersistentRegistry();
+    @NotNull NPCRegistry getPersistentRegistry();
 
-    NPCRegistry getEphemeralRegistry();
+    @NotNull NPCRegistry getEphemeralRegistry();
 
-    IDataStore getDataStore();
+    @NotNull IDataStore getDataStore();
 
     /**
      * Saves the {@link NPCRegistry}'s to their datastore

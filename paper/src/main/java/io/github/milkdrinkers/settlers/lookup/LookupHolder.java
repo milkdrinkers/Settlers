@@ -9,6 +9,9 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * A holder for the lookup tables used by Settlers. Allows easily looking up entities and NPC's by their associated settler object or vice-versa.
@@ -16,13 +19,14 @@ import org.jetbrains.annotations.ApiStatus;
  * @see ILookupHolder
  * @see ILookupTable
  */
-public class LookupHolder implements ILookupHolder, Listener, ILifecycle {
+public final class LookupHolder implements ILookupHolder, Listener, ILifecycle {
     private final ISettlersPlugin plugin;
 
-    protected LookupHolder(ISettlersPlugin plugin) {
+    LookupHolder(ISettlersPlugin plugin) {
+        Objects.requireNonNull(plugin, "plugin instance is null in lookup holder");
         this.plugin = plugin;
-        this.npcILookupTable = new NPCLookupTable(plugin);
-        this.entityILookupTable = new EntityLookupTable(plugin);
+        this.npcILookupTable = new NPCLookupTable(plugin, this);
+        this.entityILookupTable = new EntityLookupTable(plugin, this);
     }
 
     private final ILookupTable<AbstractSettler, NPC> npcILookupTable;
@@ -70,7 +74,9 @@ public class LookupHolder implements ILookupHolder, Listener, ILifecycle {
      */
     @Override
     @ApiStatus.Internal
-    public void registerSettler(NPC npc) {
+    public void registerSettler(@NotNull NPC npc) {
+        Objects.requireNonNull(plugin, "npc is null when adding to lookup tables");
+
         final AbstractSettler settler = Utils.createSettler(npc);
         if (settler == null) {
             plugin.getSLF4JLogger().warn("Failed to register settler for NPC: {}", npc.getName());

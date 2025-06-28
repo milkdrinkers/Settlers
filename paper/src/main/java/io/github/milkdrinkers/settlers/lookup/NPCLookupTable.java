@@ -4,17 +4,25 @@ import io.github.milkdrinkers.settlers.ISettlersPlugin;
 import io.github.milkdrinkers.settlers.api.settler.AbstractSettler;
 import io.github.milkdrinkers.settlers.api.trait.SettlerTrait;
 import net.citizensnpcs.api.npc.NPC;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NPCLookupTable extends LookupTable<AbstractSettler, NPC> {
+import java.util.Objects;
+
+public final class NPCLookupTable extends LookupTable<AbstractSettler, NPC> {
+    private final ISettlersPlugin plugin;
     private final ILookupHolder holder;
 
-    NPCLookupTable(ISettlersPlugin plugin) {
-        this.holder = plugin.getLookupHandler().getHolder();
+    NPCLookupTable(ISettlersPlugin plugin, ILookupHolder holder) {
+        Objects.requireNonNull(plugin, "plugin instance is null in lookup table");
+        Objects.requireNonNull(holder, "holder instance is null in lookup table");
+        this.plugin = plugin;
+        this.holder = holder;
     }
 
     @Override
-    public @Nullable AbstractSettler lookupKey(NPC npc) {
+    public @Nullable AbstractSettler lookupKey(@NotNull NPC npc) {
+        Objects.requireNonNull(npc, "npc is null in lookup table");
         // Create a missing Settler object for this NPC (Fix for Settlers not being added to lookup tables before Citizens triggers Settler events)
         if (npc.hasTrait(SettlerTrait.class) && !super.hasValue(npc)) {
             holder.registerSettler(npc);
@@ -24,7 +32,8 @@ public class NPCLookupTable extends LookupTable<AbstractSettler, NPC> {
     }
 
     @Override
-    public boolean hasValue(NPC npc) {
+    public boolean hasValue(@NotNull NPC npc) {
+        Objects.requireNonNull(npc, "npc is null in lookup table");
         final boolean hasValue = super.hasValue(npc);
 
         // Create a missing Settler object for this NPC (Fix for Settlers not being added to lookup tables before Citizens triggers Settler events)

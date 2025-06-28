@@ -7,6 +7,8 @@ import org.bukkit.event.Listener;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * A holder for the lookup tables used by Settlers.
  */
@@ -32,6 +34,7 @@ public interface ILookupHolder extends Listener {
      */
     @ApiStatus.Internal
     default void addToLookupTables(@NotNull AbstractSettler settler) {
+        Objects.requireNonNull(settler, "settler is null when adding to lookup tables");
         getNpcLookupTable().add(settler, settler.getNpc());
         if (settler.isSpawned())
             getEntityLookupTable().add(settler, settler.getEntity());
@@ -43,5 +46,5 @@ public interface ILookupHolder extends Listener {
      * @param npc the NPC to register
      */
     @ApiStatus.Internal
-    void registerSettler(NPC npc);
+    void registerSettler(@NotNull NPC npc);
 }

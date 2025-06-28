@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  * The trait registry holds a list of traits that are registered by settlers on startup.
  * The registry is accessible through settlers API, thus other plugins can register traits through settlers.
  */
-public class TraitRegistry implements ITraitRegistry {
+public final class TraitRegistry implements ITraitRegistry {
     private final List<TraitInfo> traitInfoList = new ArrayList<>();
 
     /**
@@ -23,7 +23,7 @@ public class TraitRegistry implements ITraitRegistry {
      * @return list of traits
      */
     @Override
-    public List<TraitInfo> getTraits() {
+    public @NotNull List<TraitInfo> getTraits() {
         return traitInfoList;
     }
 
@@ -58,7 +58,7 @@ public class TraitRegistry implements ITraitRegistry {
     }
 
     @Override
-    public Spliterator<TraitInfo> spliterator() {
+    public @NotNull Spliterator<TraitInfo> spliterator() {
         return getTraits().spliterator();
     }
 }
