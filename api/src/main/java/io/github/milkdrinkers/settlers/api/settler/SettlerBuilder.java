@@ -129,6 +129,7 @@ public class SettlerBuilder {
 
     public AbstractSettler create() throws SettlerBuildException {
         checkFields();
+        register(type);
 
         final AbstractSettler settler = switch (type) {
             case COMPANION -> new Companion(npc);
