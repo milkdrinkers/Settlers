@@ -1,17 +1,24 @@
-import net.minecrell.pluginyml.paper.PaperPluginDescription
-
 plugins {
     alias(libs.plugins.run.paper)
-    alias(libs.plugins.plugin.yml.paper)
+    alias(libs.plugins.plugin.yml.bukkit)
 }
 
 val mainPackage = "${rootProject.group}.${rootProject.name.lowercase()}"
 
 dependencies {
-    implementation(projects.bukkit) {
-        isTransitive = false
+    implementation(projects.api)
+
+    implementation(libs.yaml)
+    annotationProcessor(libs.configurate.`interface`.ap)
+    implementation(libs.configurate.`interface`)
+    implementation(libs.configurate.yaml)
+    implementation(libs.colorparser) {
+        exclude("net.kyori")
     }
-    implementation(libs.command.api.paper)
+    implementation(libs.command.api.bukkit)
+
+    // Plugin Dependencies
+    implementation(libs.bstats.bukkit)
 }
 
 tasks {
@@ -24,13 +31,19 @@ tasks {
     }
 
     shadowJar {
-        dependsOn(":bukkit:shadowJar")
+        dependsOn(":api:shadowJar")
         archiveBaseName.set(rootProject.name)
         archiveClassifier.set("")
 
         // Shadow classes
         fun reloc(originPkg: String, targetPkg: String) = relocate(originPkg, "${mainPackage}.lib.${targetPkg}")
+
+        reloc("org.spongepowered.configurate", "configurate")
+        reloc("org.yaml.snakeyaml", "snakeyaml") // Configurate dependency
+        reloc("io.leangen.geantyref", "geantyref") // Configurate dependency
+        reloc("io.github.milkdrinkers.colorparser", "colorparser")
         reloc("dev.jorel.commandapi", "commandapi")
+        reloc("org.bstats", "bstats")
     }
 
     runServer {
@@ -46,15 +59,13 @@ tasks {
         downloadPlugins {
             hangar("ViaVersion", "5.3.2")
             hangar("ViaBackwards", "5.3.2")
-//            url("https://ci.citizensnpcs.co/job/Citizens2/lastStableBuild/artifact/dist/target/Citizens-2.0.38-b3791.jar")
+            url("https://ci.citizensnpcs.co/job/Citizens2/lastStableBuild/artifact/dist/target/Citizens-2.0.38-b3791.jar")
         }
     }
 }
 
-paper { // Options: https://github.com/Minecrell/plugin-yml#bukkit
+bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     main = "${mainPackage}.${rootProject.name}"
-    loader = "${mainPackage}.${rootProject.name}PluginLoader"
-    generateLibrariesJson = true
 
     // Plugin Information
     name = rootProject.name
@@ -67,21 +78,6 @@ paper { // Options: https://github.com/Minecrell/plugin-yml#bukkit
 
     // Misc properties
     load = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.POSTWORLD // STARTUP or POSTWORLD
-
-    // Dependencies
-    hasOpenClassloader = true
-    bootstrapDependencies {}
-    serverDependencies {
-        // Hard depends
-        register("Citizens") {
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
-
-        // Soft depends
-        register("Towny") {
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-            required = false
-        }
-    }
-    provides = listOf()
+    depend = listOf("Citizens")
+    softDepend = listOf("Towny")
 }

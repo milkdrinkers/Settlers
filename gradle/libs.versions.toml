@@ -1,5 +1,6 @@
 [versions]
 configurate = "4.2.0-GeyserMC-SNAPSHOT"
+commandapi = "10.1.1"
 
 [libraries]
 annotations = "org.jetbrains:annotations:26.0.2"
@@ -10,12 +11,14 @@ configurate-interface = { module = "org.spongepowered:configurate-extra-interfac
 configurate-core = { module = "org.spongepowered:configurate-core", version.ref = "configurate" }
 configurate-yaml = { module = "org.spongepowered:configurate-yaml", version.ref = "configurate" }
 colorparser = "io.github.milkdrinkers:colorparser:3.0.1"
-command-api = "dev.jorel:commandapi-bukkit-shade:10.0.1"
+command-api-bukkit = { module = "dev.jorel:commandapi-bukkit-shade", version.ref = "commandapi" }
+command-api-paper = { module = "dev.jorel:commandapi-bukkit-shade-mojang-mapped", version.ref = "commandapi" }
 bstats-bukkit = "org.bstats:bstats-bukkit:3.1.0"
 citizens-plugin = "net.citizensnpcs:citizens-main:2.0.39-SNAPSHOT"
 
 [plugins]
 shadow = "com.gradleup.shadow:9.0.0-beta9"
 run-paper = "xyz.jpenilla.run-paper:2.3.1"
-plugin-yml = "net.minecrell.plugin-yml.bukkit:0.6.0"
+plugin-yml-bukkit = "de.eldoria.plugin-yml.bukkit:0.7.1"
+plugin-yml-paper = "de.eldoria.plugin-yml.paper:0.7.1"
 publisher = "com.vanniktech.maven.publish:0.32.0"

@@ -11,6 +11,7 @@ import io.github.milkdrinkers.settlers.registry.IRegistryHandler;
 import io.github.milkdrinkers.settlers.registry.RegistryHandler;
 import io.github.milkdrinkers.settlers.trait.ITraitRegistryHandler;
 import io.github.milkdrinkers.settlers.trait.TraitRegistryHandler;
+import io.github.milkdrinkers.settlers.trait.persistence.PersistenceHandler;
 import io.github.milkdrinkers.settlers.utility.APILifecycle;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -41,6 +42,7 @@ public class Settlers extends JavaPlugin implements ISettlersPlugin {
 
     @Override
     public void onLoad() {
+        new PersistenceHandler();
         instance = this;
         try {
             final File pluginDir = getInstance().getDataFolder();
