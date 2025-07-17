@@ -313,6 +313,7 @@ public class CitizensListener implements Listener {
                 );
             }
         }
+
         e.setCancelled(isCancelled);
     }
 

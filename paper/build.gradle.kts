@@ -82,6 +82,10 @@ paper { // Options: https://github.com/Minecrell/plugin-yml#bukkit
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
             required = false
         }
+        register("Stewards") {
+            load = PaperPluginDescription.RelativeLoadOrder.AFTER
+            required = false
+        }
     }
     provides = listOf()
 }
