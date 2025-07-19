@@ -72,8 +72,8 @@ bukkit { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     prefix = rootProject.name
     version = "${rootProject.version}"
     description = "${rootProject.description}"
-    authors = listOf("darksaid98", "")
-    contributors = listOf()
+    authors = listOf("darksaid98")
+    contributors = listOf("Rose")
     apiVersion = libs.versions.paper.api.get().substringBefore("-R")
 
     // Misc properties
