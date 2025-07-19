@@ -63,7 +63,7 @@ paper { // Options: https://github.com/Minecrell/plugin-yml#bukkit
     description = "${rootProject.description}"
     authors = listOf("darksaid98", "")
     contributors = listOf()
-    apiVersion = "1.21"
+    apiVersion = libs.versions.paper.api.get().substringBefore("-R")
 
     // Misc properties
     load = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.PluginLoadOrder.POSTWORLD // STARTUP or POSTWORLD
