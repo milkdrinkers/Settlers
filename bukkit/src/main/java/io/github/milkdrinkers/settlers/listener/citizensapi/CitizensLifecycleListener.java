@@ -1,6 +1,7 @@
 package io.github.milkdrinkers.settlers.listener.citizensapi;
 
 import io.github.milkdrinkers.settlers.ISettlersPlugin;
+import io.github.milkdrinkers.settlers.trait.persistence.PersistenceHandler;
 import io.github.milkdrinkers.settlers.utility.APILifecycle;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import net.citizensnpcs.api.event.CitizensPreReloadEvent;
@@ -23,6 +24,7 @@ public class CitizensLifecycleListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
     @SuppressWarnings("unused")
     void onLoad(CitizensEnableEvent e) {
+        new PersistenceHandler();
         APILifecycle.startup(plugin);
     }
 
