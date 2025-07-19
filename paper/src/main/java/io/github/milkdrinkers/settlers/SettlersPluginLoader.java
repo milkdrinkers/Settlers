@@ -126,6 +126,7 @@ public class SettlersPluginLoader implements PluginLoader {
          * @return A Maven Central mirror URL.
          * @implNote Uses reflection to support pre 1.21.7 versions of Paper that do not have this field.
          */
+        @SuppressWarnings("JavaReflectionMemberAccess")
         private static String getMavenCentralMirror() {
             try {
                 final Field field = MavenLibraryResolver.class.getDeclaredField("MAVEN_CENTRAL_DEFAULT_MIRROR");
