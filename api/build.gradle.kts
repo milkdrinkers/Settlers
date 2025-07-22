@@ -74,7 +74,7 @@ mavenPublishing {
     ))
 
     // Publish to Maven Central
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    publishToMavenCentral(automaticRelease = true)
 
     // Sign all publications
     signAllPublications()
