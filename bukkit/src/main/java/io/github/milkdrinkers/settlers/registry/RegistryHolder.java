@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 import static io.github.milkdrinkers.settlers.ISettlersPlugin.DIR_DATA;
@@ -25,7 +26,7 @@ import static io.github.milkdrinkers.settlers.ISettlersPlugin.DIR_DATA;
 public final class RegistryHolder implements IRegistryHolder, Listener, Reloadable, ILifecycle {
     // Holds the AbstractSettler Registries which contain NPC Registries
     private final ISettlersPlugin plugin;
-    private final Map<String, IRegistry> registryMap = new HashMap<>();
+    private final Map<String, IRegistry> registryMap = new ConcurrentHashMap<>();
 
     /**
      * Instantiates a new settlers registry for {@link NPCRegistry}'s

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Consumer;
 
 /**
@@ -15,7 +16,7 @@ import java.util.function.Consumer;
  * The registry is accessible through settlers API, thus other plugins can register traits through settlers.
  */
 public final class TraitRegistry implements ITraitRegistry {
-    private final List<TraitInfo> traitInfoList = new ArrayList<>();
+    private final List<TraitInfo> traitInfoList = new CopyOnWriteArrayList<>();
 
     /**
      * Get a list of all traits that will/have been registered by settlers on startup

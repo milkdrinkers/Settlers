@@ -4,12 +4,12 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class LookupTable<K, V> implements ILookupTable<K, V> {
-    private final Map<K, V> keyMap = new HashMap<>();
-    private final Map<V, K> valueMap = new HashMap<>();
+    private final Map<K, V> keyMap = new ConcurrentHashMap<>();
+    private final Map<V, K> valueMap = new ConcurrentHashMap<>();
 
     @ApiStatus.Internal
     public LookupTable() {
